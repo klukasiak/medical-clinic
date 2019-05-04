@@ -10,7 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import tk.kdev.aplikacjebazodanowejavafxspring.model.Role;
 import tk.kdev.aplikacjebazodanowejavafxspring.model.User;
+import tk.kdev.aplikacjebazodanowejavafxspring.repository.RoleRepository;
 import tk.kdev.aplikacjebazodanowejavafxspring.repository.UserRepository;
 
 import java.io.IOException;
@@ -47,13 +49,16 @@ public class Main extends Application {
     }
 
     @Bean
-    public CommandLineRunner initData(UserRepository userRepo){
+    public CommandLineRunner initData(UserRepository userRepo, RoleRepository roleRepo){
         return args -> {
-            userRepo.save(new User("adam", "123"));
-            userRepo.save(new User("damian", "123456"));
-            userRepo.save(new User("konrad", "321"));
-            userRepo.save(new User("tomek", "qwe"));
-            userRepo.save(new User("michal", "ewq"));
+            roleRepo.save(new Role("PATIENT"));
+            roleRepo.save(new Role("DOCTOR"));
+            roleRepo.save(new Role("ADMIN"));
+            userRepo.save(new User("adam", "123", roleRepo.findRoleByRole("PATIENT").get()));
+            userRepo.save(new User("damian", "123456", roleRepo.findRoleByRole("PATIENT").get()));
+            userRepo.save(new User("konrad", "321", roleRepo.findRoleByRole("PATIENT").get()));
+            userRepo.save(new User("tomek", "qwe", roleRepo.findRoleByRole("PATIENT").get()));
+            userRepo.save(new User("drmichal", "ewq", roleRepo.findRoleByRole("DOCTOR").get()));
 
         };
     }
