@@ -36,12 +36,16 @@ public class LoginPaneController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         submit.setOnAction(event -> {
-                Long id = Long.parseLong(login.getText());
-                Optional<User> user = userService.findById(id);
+                String username = login.getText();
+                String pass = password.getText();
+                Optional<User> user = userService.findUserByUsername(username);
                 if(!user.isPresent())
                     testLabel.setText("NIE ZNALEZIONO");
                 else
-                    testLabel.setText(user.get().getUsername());
+                    if(user.get().getPassword().equals(pass))
+                        testLabel.setText("ZALOGOWANO");
+                    else
+                        testLabel.setText("ZLE HASLO");
 
         });
     }
