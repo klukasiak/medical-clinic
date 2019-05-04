@@ -5,9 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import tk.kdev.aplikacjebazodanowejavafxspring.model.User;
+import tk.kdev.aplikacjebazodanowejavafxspring.repository.UserRepository;
 
 import java.io.IOException;
 
@@ -37,4 +41,20 @@ public class Main extends Application {
         rootNode = fxmlLoader.load();
     }
 
+    @Override
+    public void stop() throws Exception{
+        springContext.close();
+    }
+
+    @Bean
+    public CommandLineRunner initData(UserRepository userRepo){
+        return args -> {
+            userRepo.save(new User("adam", "123"));
+            userRepo.save(new User("damian", "123456"));
+            userRepo.save(new User("konrad", "321"));
+            userRepo.save(new User("tomek", "qwe"));
+            userRepo.save(new User("michal", "ewq"));
+
+        };
+    }
 }
