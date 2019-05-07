@@ -5,11 +5,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "specialization")
 public class Specialization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_specialization")
     private Long id;
 
+    @Column(name = "specialization")
     private String specialization;
 
     @ManyToMany(fetch = FetchType.LAZY,

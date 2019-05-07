@@ -2,26 +2,36 @@ package tk.kdev.aplikacjebazodanowejavafxspring.model;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Entity
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
     private Long id;
 
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
     private String password;
 
+
+    @Column(name = "firstName")
     private String firstName;
+
+    @Column(name = "lastName")
     private String lastName;
+
+    @Column(name = "pesel")
     private String pesel;
+
+    @Column(name = "phoneNumber")
     private String phoneNumber;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id_role")
     private Role role;
 
     @ManyToMany(fetch = FetchType.EAGER,
@@ -30,9 +40,19 @@ public class User {
                 CascadeType.MERGE
         })
     @JoinTable(name = "user_specializations",
-        joinColumns = {@JoinColumn},
-        inverseJoinColumns = { @JoinColumn})
+        joinColumns = {@JoinColumn (name = "id_user")},
+        inverseJoinColumns = { @JoinColumn (name = "id_specialization")})
     private Set<Specialization> specializations;
+
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "user_addresses",
+            joinColumns = {@JoinColumn (name = "id_user")},
+            inverseJoinColumns = { @JoinColumn (name = "id_address")})
+    private Set<Address> addresses;
 
     public User(String username, String password, Role role, String firstName, String lastName, String pesel, String phoneNumber) {
         this.username = username;
@@ -42,19 +62,7 @@ public class User {
         this.lastName = lastName;
         this.pesel = pesel;
         this.phoneNumber = phoneNumber;
-        specializations = null;
-    }
-
-    public User(String username, String password, Role role, String firstName, String lastName, String pesel, String phoneNumber, Specialization... specializations) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.pesel = pesel;
-        this.phoneNumber = phoneNumber;
-        this.specializations = Stream.of(specializations).collect(Collectors.toSet());
-    }
+}
 
     public User() {
 
@@ -130,6 +138,14 @@ public class User {
 
     public void setSpecializations(Set<Specialization> specializations) {
         this.specializations = specializations;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
 
     @Override
