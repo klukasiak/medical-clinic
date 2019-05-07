@@ -1,6 +1,7 @@
 package tk.kdev.aplikacjebazodanowejavafxspring.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -11,9 +12,18 @@ public class User {
     private String username;
     private String password;
 
+    private String firstName;
+    private String lastName;
+    private String pesel;
+    private String phoneNumber;
+
     @OneToOne
     @JoinColumn(referencedColumnName = "id")
     private Role role;
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
+    private List<Specialization> specializations;
 
     public User(String username, String password, Role role) {
         this.username = username;
