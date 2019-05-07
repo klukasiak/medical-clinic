@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import tk.kdev.aplikacjebazodanowejavafxspring.model.User;
 
+import javax.transaction.Transactional;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,6 +22,7 @@ public class DoctorPaneController implements Initializable {
     }
 
     @Override
+    @Transactional
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
             infoLabel.setText(String.valueOf(user));

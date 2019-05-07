@@ -2,6 +2,9 @@ package tk.kdev.aplikacjebazodanowejavafxspring.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 public class User {
@@ -21,14 +24,29 @@ public class User {
     @JoinColumn(referencedColumnName = "id")
     private Role role;
 
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
-    private List<Specialization> specializations;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Specialization> specializations;
 
-    public User(String username, String password, Role role) {
+    public User(String username, String password, Role role, String firstName, String lastName, String pesel, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.pesel = pesel;
+        this.phoneNumber = phoneNumber;
+        specializations = null;
+    }
+
+    public User(String username, String password, Role role, String firstName, String lastName, String pesel, String phoneNumber, Specialization... specializations) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.pesel = pesel;
+        this.phoneNumber = phoneNumber;
+        this.specializations = Stream.of(specializations).collect(Collectors.toSet());
     }
 
     public User() {
@@ -59,6 +77,38 @@ public class User {
         this.password = password;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPesel() {
+        return pesel;
+    }
+
+    public void setPesel(String pesel) {
+        this.pesel = pesel;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -67,13 +117,26 @@ public class User {
         this.role = role;
     }
 
+    public Set<Specialization> getSpecializations() {
+        return specializations;
+    }
+
+    public void setSpecializations(Set<Specialization> specializations) {
+        this.specializations = specializations;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", pesel='" + pesel + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", role=" + role +
+                ", specializations=" + specializations +
                 '}';
     }
 }

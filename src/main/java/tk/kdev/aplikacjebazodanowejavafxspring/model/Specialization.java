@@ -1,8 +1,6 @@
 package tk.kdev.aplikacjebazodanowejavafxspring.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Specialization {
@@ -11,6 +9,14 @@ public class Specialization {
     private Long id;
 
     private String specialization;
+
+    @ManyToOne
+    @JoinColumn
+    private User user;
+
+    public Specialization(String specialization){
+        this.specialization = specialization;
+    }
 
     public Specialization(){
 
