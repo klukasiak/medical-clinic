@@ -1,18 +1,23 @@
 package tk.kdev.aplikacjebazodanowejavafxspring.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Specialization {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String specialization;
 
-    @ManyToOne
-    @JoinColumn
-    private User user;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }, mappedBy = "specializations")
+    private Set<User> user = new HashSet<>();
 
     public Specialization(String specialization){
         this.specialization = specialization;
@@ -36,6 +41,14 @@ public class Specialization {
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
+    }
+
+    public Set<User> getUser() {
+        return user;
+    }
+
+    public void setUser(Set<User> user) {
+        this.user = user;
     }
 
     @Override

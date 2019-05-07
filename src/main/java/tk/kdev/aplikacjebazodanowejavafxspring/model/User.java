@@ -1,7 +1,6 @@
 package tk.kdev.aplikacjebazodanowejavafxspring.model;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -9,7 +8,8 @@ import java.util.stream.Stream;
 @Entity
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private Long id;
 
     private String username;
@@ -20,11 +20,18 @@ public class User {
     private String pesel;
     private String phoneNumber;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id")
     private Role role;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @ManyToMany(fetch = FetchType.EAGER,
+        cascade = {
+            CascadeType.PERSIST,
+                CascadeType.MERGE
+        })
+    @JoinTable(name = "user_specializations",
+        joinColumns = {@JoinColumn},
+        inverseJoinColumns = { @JoinColumn})
     private Set<Specialization> specializations;
 
     public User(String username, String password, Role role, String firstName, String lastName, String pesel, String phoneNumber) {
