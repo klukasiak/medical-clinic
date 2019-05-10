@@ -30,7 +30,7 @@ public class User {
     @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id_role")
     private Role role;
 
@@ -53,6 +53,16 @@ public class User {
             joinColumns = {@JoinColumn (name = "id_user")},
             inverseJoinColumns = { @JoinColumn (name = "id_address")})
     private Set<Address> addresses;
+
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "user_raports",
+            joinColumns = {@JoinColumn (name = "id_user")},
+            inverseJoinColumns = { @JoinColumn (name = "id_raport")})
+    private Set<Raport> raports;
 
     public User(String username, String password, Role role, String firstName, String lastName, String pesel, String phoneNumber) {
         this.username = username;
@@ -146,6 +156,14 @@ public class User {
 
     public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public Set<Raport> getRaports() {
+        return raports;
+    }
+
+    public void setRaports(Set<Raport> raports) {
+        this.raports = raports;
     }
 
     @Override
