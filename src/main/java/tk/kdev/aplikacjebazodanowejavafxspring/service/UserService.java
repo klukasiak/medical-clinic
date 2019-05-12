@@ -29,4 +29,8 @@ public class UserService {
     public User findUserByUsername(String username) throws UserNotFoundException {
         return repo.findUserByUsername(username).orElseThrow(UserNotFoundException::new);
     }
+
+    public void addUser(User user){
+        repo.save(user);
+    }
 }

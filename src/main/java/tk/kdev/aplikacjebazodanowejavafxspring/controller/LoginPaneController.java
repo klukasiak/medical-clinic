@@ -3,7 +3,6 @@ package tk.kdev.aplikacjebazodanowejavafxspring.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,18 +41,24 @@ public class LoginPaneController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         submit.setOnAction(event -> {
-                String username = login.getText();
-                String pass = password.getText();
+                String username;
+                username = login.getText();
+                String pass;
+                pass = password.getText();
                 try {
-                    User user = userService.findUserByUsername(username);
+                    User user;
+                    user = userService.findUserByUsername(username);
                     if(!user.getPassword().equals(pass))
                         throw new LoginAndPasswordNotMatch();
                     callView(user);
-                    ((Node) (event.getSource())).getScene().getWindow().hide();
+                    Stage stage = (Stage) submit.getScene().getWindow();
+                    stage.close();
                 } catch(UserNotFoundException e){
                     testLabel.setText(e.toString());
                 } catch (LoginAndPasswordNotMatch e) {
                     testLabel.setText(e.toString());
+                } catch (Exception e){
+                    System.out.println(e);
                 }
         });
     }

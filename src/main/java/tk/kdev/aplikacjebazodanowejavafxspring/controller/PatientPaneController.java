@@ -2,17 +2,24 @@ package tk.kdev.aplikacjebazodanowejavafxspring.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import org.springframework.stereotype.Component;
 import tk.kdev.aplikacjebazodanowejavafxspring.model.Address;
 import tk.kdev.aplikacjebazodanowejavafxspring.model.User;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@Component
 public class PatientPaneController implements Initializable {
 
     @FXML
@@ -102,19 +109,54 @@ public class PatientPaneController implements Initializable {
 
             setAddressLabels(streetLabel, cityLabel, zipCodeLabel, houseNumberLabel, apartamentNumberLabel, stateLabel, address);
 
-            if(addressList.size() > 1){
+            if (addressList.size() > 1) {
                 address = addressList.get(1);
                 setAddressLabels(alStreetLabel, alCityLabel, alZipCodeLabel, alHouseNumberLabel, alApartamentNumberLabel, alStateLabel, address);
             }
+
+            logoutButton.setOnAction(event -> {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LoginPane.fxml"));
+                openNewWindow(fxmlLoader);
+                Stage stage2 = (Stage) logoutButton.getScene().getWindow();
+                stage2.close();
+
+            });
+
+            changePersonalDataButton.setOnAction(event -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SelfEditPane.fxml"));
+                    Parent root = loader.load();
+                    SelfEditPaneController sepc = loader.getController();
+                    sepc.setUser(user);
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         });
     }
 
-    private void setAddressLabels(Label street, Label city, Label zipCode, Label houseNumber, Label apartamentNumber, Label state, Address address){
+    private void setAddressLabels(Label street, Label city, Label zipCode, Label houseNumber, Label apartamentNumber, Label state, Address address) {
         street.setText(address.getStreet());
         city.setText(address.getCity());
         zipCode.setText(address.getZipCode());
         houseNumber.setText(address.getHouseNumber());
         apartamentNumber.setText(address.getApartamentNumber());
         state.setText(address.getState());
+    }
+
+    private void openNewWindow(FXMLLoader loader) {
+        try {
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
