@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
+import tk.kdev.medicalclinic.Main;
 import tk.kdev.medicalclinic.model.Address;
 import tk.kdev.medicalclinic.model.User;
 
@@ -116,6 +117,7 @@ public class PatientPaneController implements Initializable {
 
             logoutButton.setOnAction(event -> {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LoginPane.fxml"));
+                fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
                 openNewWindow(fxmlLoader);
                 Stage stage2 = (Stage) logoutButton.getScene().getWindow();
                 stage2.close();
@@ -125,6 +127,7 @@ public class PatientPaneController implements Initializable {
             changePersonalDataButton.setOnAction(event -> {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SelfEditPane.fxml"));
+                    loader.setControllerFactory(Main.getSpringContext()::getBean);
                     Parent root = loader.load();
                     SelfEditPaneController sepc = loader.getController();
                     sepc.setUser(user);

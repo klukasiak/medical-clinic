@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tk.kdev.medicalclinic.Main;
 import tk.kdev.medicalclinic.exception.LoginAndPasswordNotMatch;
 import tk.kdev.medicalclinic.exception.UserNotFoundException;
 import tk.kdev.medicalclinic.model.User;
@@ -73,6 +74,7 @@ public class LoginPaneController implements Initializable {
                 dpc.setUser(user);
             } else if (user.getRole().getRole().equals("PATIENT")) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/PatientPane.fxml"));
+                fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
                 root = fxmlLoader.load();
                 PatientPaneController ppc = fxmlLoader.getController();
                 ppc.setUser(user);

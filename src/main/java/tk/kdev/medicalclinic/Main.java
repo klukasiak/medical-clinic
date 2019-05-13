@@ -14,7 +14,7 @@ import java.io.IOException;
 @SpringBootApplication
 public class Main extends Application {
 
-    private ConfigurableApplicationContext springContext;
+    private static ConfigurableApplicationContext springContext;
     private Parent rootNode;
 
     public static void main(String[] args) {
@@ -40,5 +40,9 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception{
         springContext.close();
+    }
+
+    public static ConfigurableApplicationContext getSpringContext(){
+        return springContext;
     }
 }
