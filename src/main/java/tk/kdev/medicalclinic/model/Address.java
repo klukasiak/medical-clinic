@@ -1,4 +1,4 @@
-package tk.kdev.aplikacjebazodanowejavafxspring.model;
+package tk.kdev.medicalclinic.model;
 
 import javax.persistence.*;
 import java.util.HashSet;

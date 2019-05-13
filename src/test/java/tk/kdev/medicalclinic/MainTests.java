@@ -1,4 +1,4 @@
-package tk.kdev.aplikacjebazodanowejavafxspring;
+package tk.kdev.medicalclinic;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package tk.kdev.aplikacjebazodanowejavafxspring.controller;
+package tk.kdev.medicalclinic.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,8 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
-import tk.kdev.aplikacjebazodanowejavafxspring.model.Address;
-import tk.kdev.aplikacjebazodanowejavafxspring.model.User;
+import tk.kdev.medicalclinic.model.Address;
+import tk.kdev.medicalclinic.model.User;
 
 import java.io.IOException;
 import java.net.URL;

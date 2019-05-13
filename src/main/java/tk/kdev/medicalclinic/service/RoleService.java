@@ -1,9 +1,9 @@
-package tk.kdev.aplikacjebazodanowejavafxspring.service;
+package tk.kdev.medicalclinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.kdev.aplikacjebazodanowejavafxspring.model.Role;
-import tk.kdev.aplikacjebazodanowejavafxspring.repository.RoleRepository;
+import tk.kdev.medicalclinic.model.Role;
+import tk.kdev.medicalclinic.repository.RoleRepository;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package tk.kdev.aplikacjebazodanowejavafxspring;
+package tk.kdev.medicalclinic;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

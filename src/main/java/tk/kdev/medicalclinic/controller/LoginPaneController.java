@@ -1,4 +1,4 @@
-package tk.kdev.aplikacjebazodanowejavafxspring.controller;
+package tk.kdev.medicalclinic.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +12,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import tk.kdev.aplikacjebazodanowejavafxspring.exception.LoginAndPasswordNotMatch;
-import tk.kdev.aplikacjebazodanowejavafxspring.exception.UserNotFoundException;
-import tk.kdev.aplikacjebazodanowejavafxspring.model.User;
-import tk.kdev.aplikacjebazodanowejavafxspring.service.UserService;
+import tk.kdev.medicalclinic.exception.LoginAndPasswordNotMatch;
+import tk.kdev.medicalclinic.exception.UserNotFoundException;
+import tk.kdev.medicalclinic.model.User;
+import tk.kdev.medicalclinic.service.UserService;
 
 import java.net.URL;
 import java.util.ResourceBundle;

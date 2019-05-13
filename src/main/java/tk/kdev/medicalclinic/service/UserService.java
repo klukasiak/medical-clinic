@@ -1,10 +1,10 @@
-package tk.kdev.aplikacjebazodanowejavafxspring.service;
+package tk.kdev.medicalclinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.kdev.aplikacjebazodanowejavafxspring.exception.UserNotFoundException;
-import tk.kdev.aplikacjebazodanowejavafxspring.model.User;
-import tk.kdev.aplikacjebazodanowejavafxspring.repository.UserRepository;
+import tk.kdev.medicalclinic.exception.UserNotFoundException;
+import tk.kdev.medicalclinic.model.User;
+import tk.kdev.medicalclinic.repository.UserRepository;
 
 import java.util.Optional;
 

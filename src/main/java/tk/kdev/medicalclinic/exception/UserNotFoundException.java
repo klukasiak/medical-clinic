@@ -1,4 +1,4 @@
-package tk.kdev.aplikacjebazodanowejavafxspring.exception;
+package tk.kdev.medicalclinic.exception;
 
 public class UserNotFoundException extends Exception{
     @Override

@@ -1,4 +1,4 @@
-package tk.kdev.aplikacjebazodanowejavafxspring.model;
+package tk.kdev.medicalclinic.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
