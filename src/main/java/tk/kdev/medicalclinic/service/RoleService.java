@@ -13,11 +13,11 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepo;
 
-    public Optional<Role> findRoleByRole(String role){
+    public Optional<Role> findRoleByRole(String role) {
         return roleRepo.findRoleByRole(role);
     }
 
-    public Optional<Role> findRoleById(Long id){
+    public Optional<Role> findRoleById(Long id) {
         return roleRepo.findById(id);
     }
 }

@@ -39,55 +39,68 @@ public class LoginPaneController implements Initializable {
     @Autowired
     private UserService userService;
 
+    private static User userMemory;
+
+    static User getUserMemory() {
+        return userMemory;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         submit.setOnAction(event -> {
-                String username;
-                username = login.getText();
-                String pass;
-                pass = password.getText();
-                try {
-                    User user;
-                    user = userService.findUserByUsername(username);
-                    if(!user.getPassword().equals(pass))
-                        throw new LoginAndPasswordNotMatch();
-                    callView(user);
-                    Stage stage = (Stage) submit.getScene().getWindow();
-                    stage.close();
-                } catch(UserNotFoundException e){
-                    testLabel.setText(e.toString());
-                } catch (LoginAndPasswordNotMatch e) {
-                    testLabel.setText(e.toString());
-                } catch (Exception e){
-                    System.out.println(e);
-                }
+
+            String username = login.getText();
+            String pass = password.getText();
+
+            try {
+                User user = userService.findUserByUsername(username);
+                if (!user.getPassword().equals(pass))
+                    throw new LoginAndPasswordNotMatch();
+                userMemory = user;
+                callView(userMemory);
+                Stage stage = (Stage) submit.getScene().getWindow();
+                stage.close();
+            } catch (UserNotFoundException e) {
+                testLabel.setText(e.toString());
+            } catch (LoginAndPasswordNotMatch e) {
+                testLabel.setText(e.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
-    public void callView(User user){
-        Parent root = null;
-        try {
-            if (user.getRole().getRole().equals("DOCTOR")) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DoctorPane.fxml"));
-                root = fxmlLoader.load();
-                DoctorPaneController dpc = fxmlLoader.getController();
-                dpc.setUser(user);
-            } else if (user.getRole().getRole().equals("PATIENT")) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/PatientPane.fxml"));
-                fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
-                root = fxmlLoader.load();
-                PatientPaneController ppc = fxmlLoader.getController();
-                ppc.setUser(user);
-            } else {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AdminPane.fxml"));
-            }
+    private void callView(User user) {
+        String userRole = user.getRole().getRole();
+        System.out.println(userRole);
+        FXMLLoader fxmlLoader = null;
 
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch(Exception e){
-            System.out.println(e);
+        switch (userRole) {
+            case "PATIENT":
+                fxmlLoader = new FXMLLoader(getClass().getResource("/view/PatientPane.fxml"));
+                break;
+            case "DOCTOR":
+                fxmlLoader = new FXMLLoader(getClass().getResource("/view/DoctorPane.fxml"));
+                break;
+            case "ADMIN":
+                fxmlLoader = new FXMLLoader(getClass().getResource("/view/AdminPane.fxml"));
+                break;
         }
+
+        try {
+            assert fxmlLoader != null;
+            openNewWindow(fxmlLoader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void openNewWindow(FXMLLoader fxmlLoader) throws java.io.IOException {
+        fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
+        Parent root = fxmlLoader.load();
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

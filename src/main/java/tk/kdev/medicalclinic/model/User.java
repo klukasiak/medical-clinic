@@ -35,13 +35,13 @@ public class User {
     private Role role;
 
     @ManyToMany(fetch = FetchType.EAGER,
-        cascade = {
-            CascadeType.PERSIST,
-                CascadeType.MERGE
-        })
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     @JoinTable(name = "user_specializations",
-        joinColumns = {@JoinColumn (name = "id_user")},
-        inverseJoinColumns = { @JoinColumn (name = "id_specialization")})
+            joinColumns = {@JoinColumn(name = "id_user")},
+            inverseJoinColumns = {@JoinColumn(name = "id_specialization")})
     private Set<Specialization> specializations;
 
     @ManyToMany(fetch = FetchType.EAGER,
@@ -50,8 +50,8 @@ public class User {
                     CascadeType.MERGE
             })
     @JoinTable(name = "user_addresses",
-            joinColumns = {@JoinColumn (name = "id_user")},
-            inverseJoinColumns = { @JoinColumn (name = "id_address")})
+            joinColumns = {@JoinColumn(name = "id_user")},
+            inverseJoinColumns = {@JoinColumn(name = "id_address")})
     private Set<Address> addresses;
 
     @ManyToMany(fetch = FetchType.EAGER,
@@ -60,8 +60,8 @@ public class User {
                     CascadeType.MERGE
             })
     @JoinTable(name = "user_raports",
-            joinColumns = {@JoinColumn (name = "id_user")},
-            inverseJoinColumns = { @JoinColumn (name = "id_raport")})
+            joinColumns = {@JoinColumn(name = "id_user")},
+            inverseJoinColumns = {@JoinColumn(name = "id_raport")})
     private Set<Raport> raports;
 
     public User(String username, String password, Role role, String firstName, String lastName, String pesel, String phoneNumber) {
@@ -72,7 +72,7 @@ public class User {
         this.lastName = lastName;
         this.pesel = pesel;
         this.phoneNumber = phoneNumber;
-}
+    }
 
     public User() {
 

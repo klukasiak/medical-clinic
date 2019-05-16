@@ -30,7 +30,7 @@ public class Raport {
             }, mappedBy = "raports")
     private Set<User> user = new HashSet<>();
 
-    public Raport(){
+    public Raport() {
 
     }
 
@@ -64,5 +64,13 @@ public class Raport {
 
     public void setDateRaport(Date dateRaport) {
         this.dateRaport = dateRaport;
+    }
+
+    @Override
+    public String toString() {
+        return "Raport{" +
+                ", description='" + description + '\'' +
+                ", dateRaport=" + dateRaport +
+                '}';
     }
 }

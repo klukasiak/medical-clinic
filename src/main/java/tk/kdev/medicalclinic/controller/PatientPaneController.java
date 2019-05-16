@@ -1,6 +1,5 @@
 package tk.kdev.medicalclinic.controller;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,10 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.Main;
+import tk.kdev.medicalclinic.exception.UserNotFoundException;
 import tk.kdev.medicalclinic.model.Address;
+import tk.kdev.medicalclinic.model.Raport;
 import tk.kdev.medicalclinic.model.User;
+import tk.kdev.medicalclinic.service.RaportService;
+import tk.kdev.medicalclinic.service.UserService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -89,56 +93,53 @@ public class PatientPaneController implements Initializable {
     @FXML
     private Button logoutButton;
 
-    private User user;
+    @FXML
+    private Button raportHistoryButton;
+
+    private User userMemory;
 
     public void setUser(User user) {
-        this.user = user;
+        userMemory = user;
     }
+
+    @Autowired
+    private RaportService raportService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Platform.runLater(() -> {
-            loggedAsLabel.setText("Logged as: " + user.getFirstName() + " " + user.getLastName());
-            usernameLabel.setText(user.getUsername());
-            firstNameLabel.setText(user.getFirstName());
-            lastNameLabel.setText(user.getLastName());
-            peselLabel.setText(user.getPesel());
-            phoneNumberLabel.setText(user.getPhoneNumber());
 
-            List<Address> addressList = new ArrayList<>(user.getAddresses());
-            Address address = addressList.get(0);
+        userMemory = LoginPaneController.getUserMemory();
 
-            setAddressLabels(streetLabel, cityLabel, zipCodeLabel, houseNumberLabel, apartamentNumberLabel, stateLabel, address);
+        setPersonalLabels(userMemory);
+        takeAddressesAndSetLabels();
 
-            if (addressList.size() > 1) {
-                address = addressList.get(1);
-                setAddressLabels(alStreetLabel, alCityLabel, alZipCodeLabel, alHouseNumberLabel, alApartamentNumberLabel, alStateLabel, address);
-            }
-
-            logoutButton.setOnAction(event -> {
+        logoutButton.setOnAction(event -> {
+            try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LoginPane.fxml"));
-                fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
-                openNewWindow(fxmlLoader);
+                LoginPaneController.openNewWindow(fxmlLoader);
                 Stage stage2 = (Stage) logoutButton.getScene().getWindow();
                 stage2.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-            });
+        changePersonalDataButton.setOnAction(event -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/SelfEditPane.fxml"));
+                LoginPaneController.openNewWindow(fxmlLoader);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-            changePersonalDataButton.setOnAction(event -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SelfEditPane.fxml"));
-                    loader.setControllerFactory(Main.getSpringContext()::getBean);
-                    Parent root = loader.load();
-                    SelfEditPaneController sepc = loader.getController();
-                    sepc.setUser(user);
-                    Stage stage = new Stage();
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+        raportHistoryButton.setOnAction(event -> {
+            List<Raport> raports = raportService.getAllRaportsByUserId(userMemory.getId());
+            for (Raport r : raports)
+                System.out.println(r);
         });
     }
 
@@ -151,15 +152,29 @@ public class PatientPaneController implements Initializable {
         state.setText(address.getState());
     }
 
-    private void openNewWindow(FXMLLoader loader) {
+    private void setPersonalLabels(User user) {
         try {
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
+            setUser(userService.findById(user.getId()));
+        } catch (UserNotFoundException e) {
             e.printStackTrace();
+        }
+        loggedAsLabel.setText("Logged as: " + user.getFirstName() + " " + user.getLastName());
+        usernameLabel.setText(user.getUsername());
+        firstNameLabel.setText(user.getFirstName());
+        lastNameLabel.setText(user.getLastName());
+        peselLabel.setText(user.getPesel());
+        phoneNumberLabel.setText(user.getPhoneNumber());
+    }
+
+    private void takeAddressesAndSetLabels(){
+        List<Address> addressList = new ArrayList<>(userMemory.getAddresses());
+        Address address = addressList.get(0);
+
+        setAddressLabels(streetLabel, cityLabel, zipCodeLabel, houseNumberLabel, apartamentNumberLabel, stateLabel, address);
+
+        if (addressList.size() > 1) {
+            address = addressList.get(1);
+            setAddressLabels(alStreetLabel, alCityLabel, alZipCodeLabel, alHouseNumberLabel, alApartamentNumberLabel, alStateLabel, address);
         }
     }
 }

@@ -22,11 +22,11 @@ public class Specialization {
             }, mappedBy = "specializations")
     private Set<User> user = new HashSet<>();
 
-    public Specialization(String specialization){
+    public Specialization(String specialization) {
         this.specialization = specialization;
     }
 
-    public Specialization(){
+    public Specialization() {
 
     }
 

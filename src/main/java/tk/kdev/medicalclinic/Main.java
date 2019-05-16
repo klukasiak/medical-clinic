@@ -38,11 +38,11 @@ public class Main extends Application {
     }
 
     @Override
-    public void stop() throws Exception{
+    public void stop() throws Exception {
         springContext.close();
     }
 
-    public static ConfigurableApplicationContext getSpringContext(){
+    public static ConfigurableApplicationContext getSpringContext() {
         return springContext;
     }
 }

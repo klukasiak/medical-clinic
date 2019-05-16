@@ -13,7 +13,7 @@ public class SpecializationService {
     @Autowired
     private SpecializationRepository specialRepo;
 
-    public Optional<Specialization> findSpecializationBySpecialization(String specialization){
+    public Optional<Specialization> findSpecializationBySpecialization(String specialization) {
         return specialRepo.findSpecializationBySpecialization(specialization);
     }
 }
