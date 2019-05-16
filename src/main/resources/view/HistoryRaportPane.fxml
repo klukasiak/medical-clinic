@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tk.kdev.medicalclinic.controller.HistoryRaportPaneController">
+    <children>
+        <TableView fx:id="tableView" layoutX="100.0" layoutY="56.0" prefHeight="400.0" prefWidth="600.0"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
+            <columns>
+                <TableColumn fx:id="dateColumn" prefWidth="122.0" text="Date"/>
+                <TableColumn fx:id="descColumn" prefWidth="477.0" text="Description"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>

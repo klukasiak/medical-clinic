@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.rmi.runtime.Log;
 import tk.kdev.medicalclinic.Main;
 import tk.kdev.medicalclinic.exception.UserNotFoundException;
 import tk.kdev.medicalclinic.model.Address;
@@ -96,6 +97,9 @@ public class PatientPaneController implements Initializable {
     @FXML
     private Button raportHistoryButton;
 
+    @FXML
+    private Button refreshButton;
+
     private User userMemory;
 
     public void setUser(User user) {
@@ -118,8 +122,7 @@ public class PatientPaneController implements Initializable {
 
         logoutButton.setOnAction(event -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LoginPane.fxml"));
-                LoginPaneController.openNewWindow(fxmlLoader);
+                callView("/view/LoginPane.fxml");
                 Stage stage2 = (Stage) logoutButton.getScene().getWindow();
                 stage2.close();
             } catch (IOException e) {
@@ -129,17 +132,47 @@ public class PatientPaneController implements Initializable {
 
         changePersonalDataButton.setOnAction(event -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/SelfEditPane.fxml"));
-                LoginPaneController.openNewWindow(fxmlLoader);
+                callView("/view/SelfEditPane.fxml");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
 
         raportHistoryButton.setOnAction(event -> {
+            try {
+                callView("/view/HistoryRaportPane.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             List<Raport> raports = raportService.getAllRaportsByUserId(userMemory.getId());
             for (Raport r : raports)
                 System.out.println(r);
+        });
+
+        refreshButton.setOnAction(event -> {
+            try {
+                userMemory = userService.findById(userMemory.getId());
+                setPersonalLabels(userMemory);
+                takeAddressesAndSetLabels();
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+
+        changeAddress.setOnAction(event -> {
+            try {
+                callView("/view/ChangeAddressPane.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        changeNdAddress.setOnAction(event -> {
+            try {
+                callView("/view/ChangeAddressPane.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -176,5 +209,10 @@ public class PatientPaneController implements Initializable {
             address = addressList.get(1);
             setAddressLabels(alStreetLabel, alCityLabel, alZipCodeLabel, alHouseNumberLabel, alApartamentNumberLabel, alStateLabel, address);
         }
+    }
+
+    private void callView(String path) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
+        LoginPaneController.openNewWindow(fxmlLoader);
     }
 }
