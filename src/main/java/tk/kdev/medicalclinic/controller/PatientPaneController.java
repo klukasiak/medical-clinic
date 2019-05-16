@@ -3,15 +3,11 @@ package tk.kdev.medicalclinic.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.rmi.runtime.Log;
-import tk.kdev.medicalclinic.Main;
 import tk.kdev.medicalclinic.exception.UserNotFoundException;
 import tk.kdev.medicalclinic.model.Address;
 import tk.kdev.medicalclinic.model.Raport;
@@ -199,7 +195,7 @@ public class PatientPaneController implements Initializable {
         phoneNumberLabel.setText(user.getPhoneNumber());
     }
 
-    private void takeAddressesAndSetLabels(){
+    private void takeAddressesAndSetLabels() {
         List<Address> addressList = new ArrayList<>(userMemory.getAddresses());
         Address address = addressList.get(0);
 

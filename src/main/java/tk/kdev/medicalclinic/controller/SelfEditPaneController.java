@@ -2,6 +2,7 @@ package tk.kdev.medicalclinic.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -66,16 +67,27 @@ public class SelfEditPaneController implements Initializable {
             newUser.setRaports(userMemory.getRaports());
             newUser.setId(userMemory.getId());
             userService.addUser(newUser);
+            showAlert();
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
             System.out.println(newUser + " added");
         });
     }
 
-    public void setDataForEdit(User user) {
+    private void setDataForEdit(User user) {
         usernameInput.setText(user.getUsername());
         passwordInput.setText(user.getPassword());
         firstNameInput.setText(user.getFirstName());
         lastNameInput.setText(user.getLastName());
         peselInput.setText(user.getPesel());
         phoneNumberInput.setText(user.getPhoneNumber());
+    }
+
+    private void showAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Edit data");
+        alert.setHeaderText("Successful");
+        alert.setContentText("Your data has been edited :)");
+        alert.showAndWait();
     }
 }

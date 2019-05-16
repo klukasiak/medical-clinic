@@ -14,9 +14,10 @@ INSERT INTO ADDRESS(STREET, HOUSE_NUMBER, APARTAMENT_NUMBER, CITY, ZIP_CODE, STA
   ('Tuwima', 15, NULL, 'Przasnysz', '06-300', 'mazowieckie'),
   ('Zlota', 3, 12, 'Olsztyn', '20-224', 'warminskomazurskie'),
   ('Al. Grunwaldzka', 2137, 420, 'Gdansk', '02-434', 'pomorskie'),
-  ('Cicha', 22, NULL, 'Przasnysz', '06-300', 'mazowieckie');
+  ('Cicha', 22, NULL, 'Przasnysz', '06-300', 'mazowieckie'),
+  ('Bliska', 41, NULL, 'Dalekowo', '02-222', 'mazowieckie');
 
-INSERT INTO USER_ADDRESSES(ID_USER, ID_ADDRESS) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (1,2);
+INSERT INTO USER_ADDRESSES(ID_USER, ID_ADDRESS) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (1,6);
 INSERT INTO USER_SPECIALIZATIONS(ID_USER, ID_SPECIALIZATION) VALUES (2, 1), (2, 2);
 
 INSERT INTO RAPORT(DESCRIPTION, DATE_RAPORT) VALUES ('wizyta kontrolna', '2002-09-22'), ('zdiagnozowano przeziebienie', '2004-06-11');

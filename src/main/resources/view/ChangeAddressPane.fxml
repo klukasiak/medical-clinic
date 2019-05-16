@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tk.kdev.medicalclinic.controller.ChangeAddressPaneController">
+    <children>
+        <VBox prefHeight="400.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="Select Address:"/>
+                        <ChoiceBox fx:id="choiceAddress" prefWidth="150.0"/>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="Street:"/>
+                        <TextField fx:id="streetInput"/>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="City:"/>
+                        <TextField fx:id="cityInput"/>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="Zip code:"/>
+                        <TextField fx:id="zipCodeInput"/>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="House number:"/>
+                        <TextField fx:id="houseNumberInput"/>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="Ap. number:"/>
+                        <TextField fx:id="apartamentNumberInput"/>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="State:"/>
+                        <TextField fx:id="stateInput"/>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="addButton" mnemonicParsing="false" text="Add"/>
+                        <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

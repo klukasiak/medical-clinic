@@ -15,7 +15,6 @@ import tk.kdev.medicalclinic.service.RaportService;
 
 import java.net.URL;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
 @Component

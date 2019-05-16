@@ -5,10 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -61,11 +58,9 @@ public class LoginPaneController implements Initializable {
                 Stage stage = (Stage) submit.getScene().getWindow();
                 stage.close();
             } catch (UserNotFoundException e) {
-                testLabel.setText(e.toString());
+                showAlert(e.toString());
             } catch (LoginAndPasswordNotMatch e) {
-                testLabel.setText(e.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
+                showAlert(e.toString());
             }
         });
     }
@@ -102,5 +97,15 @@ public class LoginPaneController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void showAlert(String error) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Login Error");
+        alert.setHeaderText("Something goes wrong");
+        alert.setContentText(error);
+        alert.showAndWait();
+        login.clear();
+        password.clear();
     }
 }
