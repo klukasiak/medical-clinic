@@ -56,9 +56,7 @@ public class Specialization {
 
     @Override
     public String toString() {
-        return "Specialization{" +
-                "id=" + id +
-                ", specialization='" + specialization + '\'' +
-                '}';
+        return specialization;
+
     }
 }

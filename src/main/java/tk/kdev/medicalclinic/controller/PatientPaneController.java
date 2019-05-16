@@ -1,10 +1,16 @@
 package tk.kdev.medicalclinic.controller;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,12 +18,15 @@ import tk.kdev.medicalclinic.exception.UserNotFoundException;
 import tk.kdev.medicalclinic.model.Address;
 import tk.kdev.medicalclinic.model.Raport;
 import tk.kdev.medicalclinic.model.User;
+import tk.kdev.medicalclinic.model.Visit;
 import tk.kdev.medicalclinic.service.RaportService;
 import tk.kdev.medicalclinic.service.UserService;
+import tk.kdev.medicalclinic.service.VisitService;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -82,9 +91,6 @@ public class PatientPaneController implements Initializable {
     private Label alStateLabel;
 
     @FXML
-    private Button changeNdAddress;
-
-    @FXML
     private Label loggedAsLabel;
 
     @FXML
@@ -95,6 +101,27 @@ public class PatientPaneController implements Initializable {
 
     @FXML
     private Button refreshButton;
+
+    @FXML
+    private TableView<Visit> visitTable;
+
+    @FXML
+    private TableColumn<Visit, Date> dateColumn;
+
+    @FXML
+    private TableColumn<Visit, Date> timeColumn;
+
+    @FXML
+    private TableColumn<Visit, String> doctorColumn;
+
+    @FXML
+    private TableColumn<Visit, String> specColumn;
+
+    @FXML
+    private Button addVisitButton;
+
+    @FXML
+    private Button editVisitButton;
 
     private User userMemory;
 
@@ -108,6 +135,9 @@ public class PatientPaneController implements Initializable {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private VisitService visitService;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -115,6 +145,9 @@ public class PatientPaneController implements Initializable {
 
         setPersonalLabels(userMemory);
         takeAddressesAndSetLabels();
+
+        initializeTable();
+
 
         logoutButton.setOnAction(event -> {
             try {
@@ -162,14 +195,6 @@ public class PatientPaneController implements Initializable {
                 e.printStackTrace();
             }
         });
-
-        changeNdAddress.setOnAction(event -> {
-            try {
-                callView("/view/ChangeAddressPane.fxml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     private void setAddressLabels(Label street, Label city, Label zipCode, Label houseNumber, Label apartamentNumber, Label state, Address address) {
@@ -210,5 +235,29 @@ public class PatientPaneController implements Initializable {
     private void callView(String path) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
         LoginPaneController.openNewWindow(fxmlLoader);
+    }
+
+    private void initializeTable(){
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("visitDate"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("visitTime"));
+        doctorColumn.setCellValueFactory(
+                Visit -> {
+                    SimpleObjectProperty property = new SimpleObjectProperty();
+                    property.setValue(Visit.getValue().getDoctor().getFirstName() + " " + Visit.getValue().getDoctor().getLastName());
+                    return property;
+                }
+        );
+        specColumn.setCellValueFactory(
+                Visit -> {
+                    SimpleObjectProperty property = new SimpleObjectProperty();
+                    property.setValue(Visit.getValue().getDoctor().getSpecializations());
+                    return property;
+                }
+        );
+        ObservableList<Visit> visits = FXCollections.observableList(visitService.getAllByPatientId(userMemory.getId()));
+        for(Visit v : visits)
+            System.out.println(v);
+        visitTable.setItems(visits);
+        visitTable.getSortOrder().add(dateColumn);
     }
 }
