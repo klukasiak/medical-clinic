@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import tk.kdev.medicalclinic.model.Specialization;
 import tk.kdev.medicalclinic.repository.SpecializationRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,5 +16,9 @@ public class SpecializationService {
 
     public Optional<Specialization> findSpecializationBySpecialization(String specialization) {
         return specialRepo.findSpecializationBySpecialization(specialization);
+    }
+
+    public List<Specialization> getAllSpecializations(){
+        return specialRepo.findAll();
     }
 }

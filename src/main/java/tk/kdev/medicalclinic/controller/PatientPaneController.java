@@ -195,6 +195,18 @@ public class PatientPaneController implements Initializable {
                 e.printStackTrace();
             }
         });
+
+        addVisitButton.setOnAction(event -> {
+            try {
+                callView("/view/AddVisitPane.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        editVisitButton.setOnAction(event -> {
+            Visit v = visitTable.getSelectionModel().getSelectedItem();
+        });
     }
 
     private void setAddressLabels(Label street, Label city, Label zipCode, Label houseNumber, Label apartamentNumber, Label state, Address address) {

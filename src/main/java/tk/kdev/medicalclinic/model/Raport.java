@@ -3,6 +3,7 @@ package tk.kdev.medicalclinic.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,9 +20,8 @@ public class Raport {
     private String description;
 
     @Column(name = "dateRaport")
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd.MM.yyyy")
-    private Date dateRaport;
+    private LocalDate dateRaport;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -58,11 +58,11 @@ public class Raport {
         this.user = user;
     }
 
-    public Date getDateRaport() {
+    public LocalDate getDateRaport() {
         return dateRaport;
     }
 
-    public void setDateRaport(Date dateRaport) {
+    public void setDateRaport(LocalDate dateRaport) {
         this.dateRaport = dateRaport;
     }
 

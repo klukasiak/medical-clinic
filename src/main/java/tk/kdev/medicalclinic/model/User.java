@@ -168,16 +168,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", pesel='" + pesel + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", role=" + role +
-                ", specializations=" + specializations +
-                '}';
+        return firstName + " " + lastName;
+    }
+
+    public String getFullName(){
+        return firstName + " " + lastName;
     }
 }
