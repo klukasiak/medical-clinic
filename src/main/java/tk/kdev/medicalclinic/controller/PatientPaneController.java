@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -14,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tk.kdev.medicalclinic.Main;
 import tk.kdev.medicalclinic.exception.UserNotFoundException;
 import tk.kdev.medicalclinic.model.Address;
 import tk.kdev.medicalclinic.model.Raport;
@@ -206,6 +209,21 @@ public class PatientPaneController implements Initializable {
 
         editVisitButton.setOnAction(event -> {
             Visit v = visitTable.getSelectionModel().getSelectedItem();
+            System.out.println(v);
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/EditVisitPane.fxml"));
+                fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
+                Parent root = fxmlLoader.load();
+                EditVisitPaneController evpc = fxmlLoader.getController();
+                evpc.setVisitToChange(v);
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } catch (Exception e){
+                e.printStackTrace();
+                System.out.println(e);
+            }
         });
     }
 

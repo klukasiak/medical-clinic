@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.model.Specialization;
 import tk.kdev.medicalclinic.model.User;

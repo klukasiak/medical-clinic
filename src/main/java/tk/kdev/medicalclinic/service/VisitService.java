@@ -7,7 +7,9 @@ import tk.kdev.medicalclinic.model.Visit;
 import tk.kdev.medicalclinic.repository.VisitRepository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VisitService {
@@ -25,5 +27,9 @@ public class VisitService {
 
     public void addVisit(Visit visit){
         visitRepository.save(visit);
+    }
+
+    public Optional<Visit> getVisitByDoctorDateTime(User doctor, LocalDate visitDate, LocalTime visitTime){
+        return visitRepository.getVisitByDoctorAndVisitDateAndVisitTime(doctor, visitDate, visitTime);
     }
 }

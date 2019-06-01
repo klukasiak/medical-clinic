@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface SpecializationRepository extends JpaRepository<Specialization, Long> {
-    public Optional<Specialization> findSpecializationBySpecialization(String specialization);
+    public Specialization findSpecializationBySpecialization(String specialization);
 }

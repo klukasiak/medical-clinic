@@ -3,6 +3,7 @@ package tk.kdev.medicalclinic.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.kdev.medicalclinic.exception.UserNotFoundException;
+import tk.kdev.medicalclinic.model.Role;
 import tk.kdev.medicalclinic.model.Specialization;
 import tk.kdev.medicalclinic.model.User;
 import tk.kdev.medicalclinic.repository.UserRepository;
@@ -38,5 +39,9 @@ public class UserService {
 
     public List<User> findUserBySpecialization(Specialization specialization){
         return repo.findUserBySpecializations(specialization);
+    }
+
+    public List<User> getUsersByRole(Role role){
+        return repo.findUserByRole(role);
     }
 }
