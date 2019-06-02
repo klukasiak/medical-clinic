@@ -62,7 +62,8 @@ public class SelfEditPaneController implements Initializable {
         });
 
         addButton.setOnAction(event -> {
-            User newUser = new User(usernameInput.getText(), passwordInput.getText(), userMemory.getRole(), firstNameInput.getText(), lastNameInput.getText(), peselInput.getText(), phoneNumberInput.getText());
+            User newUser = new User(usernameInput.getText(), passwordInput.getText(), firstNameInput.getText(), lastNameInput.getText(), peselInput.getText(), phoneNumberInput.getText());
+            newUser.setRoles(userMemory.getRoles());
             newUser.setAddresses(userMemory.getAddresses());
             newUser.setRaports(userMemory.getRaports());
             newUser.setId(userMemory.getId());

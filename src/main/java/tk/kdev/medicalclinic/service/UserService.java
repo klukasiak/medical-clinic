@@ -10,6 +10,7 @@ import tk.kdev.medicalclinic.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -41,8 +42,8 @@ public class UserService {
         return repo.findUserBySpecializations(specialization);
     }
 
-    public List<User> getUsersByRole(Role role) {
-        return repo.findUserByRole(role);
+    public List<User> getUsersByRole(Set<Role> roles) {
+        return repo.findUserByRoles(roles);
     }
 
     public List<User> getAllUsers() {

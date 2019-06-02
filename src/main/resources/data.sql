@@ -2,14 +2,14 @@ INSERT INTO role(role) VALUES 'PATIENT', 'DOCTOR', 'ADMIN';
 
 INSERT INTO SPECIALIZATION(SPECIALIZATION) VALUES 'Surgeon', 'Pediatrician', 'Laryngologist';
 
-INSERT INTO USER (FIRST_NAME, LAST_NAME, PESEL, PHONE_NUMBER, USERNAME, PASSWORD, ROLE_ID_ROLE) VALUES
-  ('Adam', 'Adamowski', '123456789', '2983498234', 'adam', '123', 1),
-  ('Michal', 'Jaroszewski', '235478907', '4889012341', 'drmichal', 'ewq', 2),
-  ('Damian', 'Olszak', '987654321', '483872639', 'damian', '123456', 1),
-  ('Tomasz', 'Legowski', '123890831', '481238901', 'tlegowski', 'tle12', 1),
-  ('Pawel', 'Purzycki', '561354134', '4890128309', 'ppurzycki', 'ppa123', 1),
-  ('Teresa', 'Bulka', '112323237', '412333012341', 'drteresa', 'essq', 2),
-  ('Admin', 'Administrator', '155523237', '46546412341', 'admin', 'admin', 3);
+INSERT INTO USER (FIRST_NAME, LAST_NAME, PESEL, PHONE_NUMBER, USERNAME, PASSWORD) VALUES
+  ('Adam', 'Adamowski', '123456789', '2983498234', 'adam', '123'),
+  ('Michal', 'Jaroszewski', '235478907', '4889012341', 'drmichal', 'ewq'),
+  ('Damian', 'Olszak', '987654321', '483872639', 'damian', '123456'),
+  ('Tomasz', 'Legowski', '123890831', '481238901', 'tlegowski', 'tle12'),
+  ('Pawel', 'Purzycki', '561354134', '4890128309', 'ppurzycki', 'ppa123'),
+  ('Teresa', 'Bulka', '112323237', '412333012341', 'drteresa', 'essq'),
+  ('Admin', 'Administrator', '155523237', '46546412341', 'admin', 'admin');
 
 INSERT INTO ADDRESS(STREET, HOUSE_NUMBER, APARTAMENT_NUMBER, CITY, ZIP_CODE, STATE) VALUES
   ('Daleka', 1, NULL, 'Adamowo', '02-434', 'dalekopomorskie'),
@@ -21,6 +21,7 @@ INSERT INTO ADDRESS(STREET, HOUSE_NUMBER, APARTAMENT_NUMBER, CITY, ZIP_CODE, STA
 
 INSERT INTO USER_ADDRESSES(ID_USER, ID_ADDRESS) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (1,6);
 INSERT INTO USER_SPECIALIZATIONS(ID_USER, ID_SPECIALIZATION) VALUES (2, 1), (2, 2), (6,3), (6,1);
+INSERT INTO USER_ROLES(ID_USER, ID_ROLE) VALUES (1, 1), (2, 2), (3, 1), (4, 1), (5, 1), (6, 2), (7, 3);
 
 INSERT INTO RAPORT(DESCRIPTION, DATE_RAPORT) VALUES ('wizyta kontrolna', '2002-09-22'), ('zdiagnozowano przeziebienie', '2004-06-11');
 

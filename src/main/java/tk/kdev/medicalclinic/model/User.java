@@ -31,9 +31,15 @@ public class User {
     @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "id_role")
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "id_user")},
+            inverseJoinColumns = {@JoinColumn(name = "id_role")})
+    private Set<Role> roles;
 
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
@@ -65,10 +71,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "id_raport")})
     private Set<Raport> raports;
 
-    public User(String username, String password, Role role, String firstName, String lastName, String pesel, String phoneNumber) {
+    public User(String username, String password, String firstName, String lastName, String pesel, String phoneNumber) {
         this.username = username;
         this.password = password;
-        this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
         this.pesel = pesel;
@@ -135,14 +140,6 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public Set<Specialization> getSpecializations() {
         return specializations;
     }
@@ -165,6 +162,14 @@ public class User {
 
     public void setRaports(Set<Raport> raports) {
         this.raports = raports;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

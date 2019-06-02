@@ -12,10 +12,13 @@ import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.Main;
 import tk.kdev.medicalclinic.exception.LoginAndPasswordNotMatch;
 import tk.kdev.medicalclinic.exception.UserNotFoundException;
+import tk.kdev.medicalclinic.model.Role;
 import tk.kdev.medicalclinic.model.User;
 import tk.kdev.medicalclinic.service.UserService;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -86,7 +89,12 @@ public class LoginPaneController implements Initializable {
     }
 
     private void callView(User user) {
-        String userRole = user.getRole().getRole();
+        List<Role> roles = new ArrayList<>(user.getRoles());
+        String userRole = "";
+        if(roles.size() == 1) {
+            userRole = roles.get(0).getRole();
+        }
+
         System.out.println(userRole);
         FXMLLoader fxmlLoader = null;
 

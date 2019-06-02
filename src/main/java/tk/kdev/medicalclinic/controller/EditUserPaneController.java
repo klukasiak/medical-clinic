@@ -131,7 +131,8 @@ public class EditUserPaneController implements Initializable {
                 lastNameInput.setText(user.getLastName());
                 phoneNumberInput.setText(user.getPhoneNumber());
                 passwordInput.setText(user.getPassword());
-                pickRole.setValue(user.getRole());
+                List<Role> userRole = new ArrayList<>(user.getRoles());
+                pickRole.setValue(userRole.get(0));
 
                 List<Specialization> userSpecializations = new ArrayList<>(user.getSpecializations());
                 for (Specialization s : userSpecializations) {
@@ -152,7 +153,7 @@ public class EditUserPaneController implements Initializable {
 
             addUserButton.setOnAction(event -> {
                 List<Address> addresses;
-
+                //ToDo rola zepsula rejestracje sprawdzic
                 if (user == null) {
                     user = new User();
                     addresses = new ArrayList<>();
@@ -165,9 +166,13 @@ public class EditUserPaneController implements Initializable {
                 user.setPhoneNumber(phoneNumberInput.getText());
                 user.setPassword(passwordInput.getText());
                 if (isAdmin) {
-                    user.setRole(pickRole.getValue());
+                    Set<Role> roles = new HashSet<>();
+                    roles.add(pickRole.getValue());
+                    user.setRoles(roles);
                 } else {
-                    user.setRole(roleService.findRoleByRole("PATIENT").get());
+                    Set<Role> roles = new HashSet<>();
+                    roles.add(roleService.findRoleByRole("PATIENT").get());
+                    user.setRoles(roles);
                 }
 
                 List<Address> addressesToAdd = new ArrayList<>();

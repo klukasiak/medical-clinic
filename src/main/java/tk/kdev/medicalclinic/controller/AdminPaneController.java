@@ -107,7 +107,7 @@ public class AdminPaneController implements Initializable {
         roleUserCol.setCellValueFactory(
                 User -> {
                     SimpleObjectProperty property = new SimpleObjectProperty();
-                    property.setValue(User.getValue().getRole().getRole());
+                    property.setValue(User.getValue().getRoles());
                     return property;
                 }
         );

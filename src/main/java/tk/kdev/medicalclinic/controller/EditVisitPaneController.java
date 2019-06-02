@@ -10,6 +10,7 @@ import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tk.kdev.medicalclinic.model.Role;
 import tk.kdev.medicalclinic.model.User;
 import tk.kdev.medicalclinic.model.Visit;
 import tk.kdev.medicalclinic.service.RoleService;
@@ -19,10 +20,7 @@ import tk.kdev.medicalclinic.service.VisitService;
 import java.net.URL;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Component
 public class EditVisitPaneController implements Initializable {
@@ -68,7 +66,9 @@ public class EditVisitPaneController implements Initializable {
 
             timeToChange.getItems().setAll(availableHours);
 
-            List<User> doctors = userService.getUsersByRole(roleService.findRoleByRole("DOCTOR").get());
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleService.findRoleByRole("DOCTOR").get());
+            List<User> doctors = userService.getUsersByRole(roles);
 
             docToChange.getItems().setAll(doctors);
 

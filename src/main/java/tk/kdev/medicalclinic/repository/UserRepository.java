@@ -8,6 +8,7 @@ import tk.kdev.medicalclinic.model.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -15,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findUserBySpecializations(Specialization specialization);
 
-    List<User> findUserByRole(Role role);
+    List<User> findUserByRoles(Set<Role>roles);
 
     User findUserByPesel(String pesel);
 }

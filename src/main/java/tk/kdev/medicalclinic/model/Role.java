@@ -1,6 +1,8 @@
 package tk.kdev.medicalclinic.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -12,6 +14,13 @@ public class Role {
 
     @Column(name = "role")
     private String role;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }, mappedBy = "roles")
+    private Set<User> user = new HashSet<>();
 
     public Role() {
 
