@@ -1,6 +1,7 @@
 package tk.kdev.medicalclinic.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -42,7 +43,7 @@ public class User {
     @JoinTable(name = "user_specializations",
             joinColumns = {@JoinColumn(name = "id_user")},
             inverseJoinColumns = {@JoinColumn(name = "id_specialization")})
-    private Set<Specialization> specializations;
+    private Set<Specialization> specializations = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tk.kdev.medicalclinic.controller.AdminPaneController">
+   <children>
+      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Users">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView fx:id="userTable" prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn fx:id="idUserCol" prefWidth="28.0" text="Id" />
+                                  <TableColumn fx:id="firstNameUserCol" prefWidth="83.0" text="First Name" />
+                                    <TableColumn fx:id="lastNameUserCol" prefWidth="81.0" text="Last Name" />
+                                    <TableColumn fx:id="loginUserCol" prefWidth="68.0" text="Login" />
+                                    <TableColumn fx:id="peselUserCol" prefWidth="78.0" text="PESEL" />
+                                    <TableColumn fx:id="phoneNoUserCol" prefWidth="100.0" text="Phone number" />
+                                    <TableColumn fx:id="roleUserCol" prefWidth="63.0" text="Role" />
+                                    <TableColumn fx:id="specUserCol" prefWidth="94.0" text="Specialization" />
+                                </columns>
+                              </TableView>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="editUser" mnemonicParsing="false" text="Edit" />
+                                    <Button fx:id="addUser" mnemonicParsing="false" text="Add" />
+                                    <Button fx:id="refreshButton" mnemonicParsing="false" text="R" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Visits">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView fx:id="visitTable" prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn fx:id="idVisitCol" prefWidth="75.0" text="Id" />
+                                    <TableColumn fx:id="dateVisitCol" prefWidth="75.0" text="Date" />
+                                    <TableColumn fx:id="timeVisitCol" prefWidth="75.0" text="Time" />
+                                    <TableColumn fx:id="patientVisitCol" prefWidth="75.0" text="Patient" />
+                                    <TableColumn fx:id="doctorVisitCol" prefWidth="75.0" text="Doctor" />
+                                 </columns>
+                              </TableView>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="editVisit" mnemonicParsing="false" text="Edit" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

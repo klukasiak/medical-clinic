@@ -8,7 +8,8 @@ INSERT INTO USER (FIRST_NAME, LAST_NAME, PESEL, PHONE_NUMBER, USERNAME, PASSWORD
   ('Damian', 'Olszak', '987654321', '483872639', 'damian', '123456', 1),
   ('Tomasz', 'Legowski', '123890831', '481238901', 'tlegowski', 'tle12', 1),
   ('Pawel', 'Purzycki', '561354134', '4890128309', 'ppurzycki', 'ppa123', 1),
-  ('Teresa', 'Bulka', '112323237', '412333012341', 'drteresa', 'essq', 2);
+  ('Teresa', 'Bulka', '112323237', '412333012341', 'drteresa', 'essq', 2),
+  ('Admin', 'Administrator', '155523237', '46546412341', 'admin', 'admin', 3);
 
 INSERT INTO ADDRESS(STREET, HOUSE_NUMBER, APARTAMENT_NUMBER, CITY, ZIP_CODE, STATE) VALUES
   ('Daleka', 1, NULL, 'Adamowo', '02-434', 'dalekopomorskie'),

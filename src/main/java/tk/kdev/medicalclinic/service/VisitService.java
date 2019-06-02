@@ -32,4 +32,8 @@ public class VisitService {
     public Optional<Visit> getVisitByDoctorDateTime(User doctor, LocalDate visitDate, LocalTime visitTime){
         return visitRepository.getVisitByDoctorAndVisitDateAndVisitTime(doctor, visitDate, visitTime);
     }
+
+    public List<Visit> getAllVisits(){
+        return visitRepository.findAll();
+    }
 }
