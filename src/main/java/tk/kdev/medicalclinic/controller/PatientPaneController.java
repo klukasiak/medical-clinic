@@ -220,7 +220,7 @@ public class PatientPaneController implements Initializable {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e);
             }
@@ -267,7 +267,7 @@ public class PatientPaneController implements Initializable {
         LoginPaneController.openNewWindow(fxmlLoader);
     }
 
-    private void initializeTable(){
+    private void initializeTable() {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("visitDate"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("visitTime"));
         doctorColumn.setCellValueFactory(
@@ -285,7 +285,7 @@ public class PatientPaneController implements Initializable {
                 }
         );
         ObservableList<Visit> visits = FXCollections.observableList(visitService.getAllByPatientId(userMemory.getId()));
-        for(Visit v : visits)
+        for (Visit v : visits)
             System.out.println(v);
         visitTable.setItems(visits);
         visitTable.getSortOrder().add(dateColumn);

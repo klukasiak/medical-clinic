@@ -150,6 +150,7 @@ public class AdminPaneController implements Initializable {
                 Parent root = fxmlLoader.load();
                 EditUserPaneController eupc = fxmlLoader.getController();
                 eupc.setUser(null);
+                eupc.setIsAdmin(true);
                 Stage stage = new Stage();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
@@ -172,6 +173,7 @@ public class AdminPaneController implements Initializable {
                 Parent root = fxmlLoader.load();
                 EditUserPaneController eupc = fxmlLoader.getController();
                 eupc.setUser(userTable.getSelectionModel().getSelectedItem());
+                eupc.setIsAdmin(true);
                 Stage stage = new Stage();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);

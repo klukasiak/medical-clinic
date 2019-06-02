@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.model.Raport;
 import tk.kdev.medicalclinic.model.User;
 import tk.kdev.medicalclinic.model.Visit;
-import tk.kdev.medicalclinic.repository.UserRepository;
-import tk.kdev.medicalclinic.repository.VisitRepository;
 import tk.kdev.medicalclinic.service.RaportService;
 import tk.kdev.medicalclinic.service.UserService;
 import tk.kdev.medicalclinic.service.VisitService;

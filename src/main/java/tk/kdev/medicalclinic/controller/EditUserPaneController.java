@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.model.Address;
@@ -96,25 +97,35 @@ public class EditUserPaneController implements Initializable {
 
     private User user;
 
-    public void setUser(User user){
+    public void setUser(User user) {
         this.user = user;
+    }
+
+    private boolean isAdmin;
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
-            System.out.println(user);
-            pickSpecializations.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            if (!isAdmin) {
+                pickRole.setDisable(true);
+                pickSpecializations.setDisable(true);
+            }
 
-            List<Role> roles = roleService.getAllRoles();
-            List<Specialization> specializations = specializationService.getAllSpecializations();
+            if (isAdmin) {
+                pickSpecializations.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-            pickRole.setItems(FXCollections.observableList(roles));
-            pickSpecializations.setItems(FXCollections.observableList(specializations));
+                List<Role> roles = roleService.getAllRoles();
+                List<Specialization> specializations = specializationService.getAllSpecializations();
 
+                pickRole.setItems(FXCollections.observableList(roles));
+                pickSpecializations.setItems(FXCollections.observableList(specializations));
+            }
 
-            if(user != null){
-                //ToDo initialize inputs when edit user
+            if (user != null) {
                 usernameInput.setText(user.getUsername());
                 firstNameInput.setText(user.getFirstName());
                 lastNameInput.setText(user.getLastName());
@@ -123,16 +134,16 @@ public class EditUserPaneController implements Initializable {
                 pickRole.setValue(user.getRole());
 
                 List<Specialization> userSpecializations = new ArrayList<>(user.getSpecializations());
-                for(Specialization s : userSpecializations){
+                for (Specialization s : userSpecializations) {
                     pickSpecializations.getSelectionModel().select(s);
                 }
 
                 List<Address> addresses = new ArrayList<>(user.getAddresses());
 
-                if(addresses.size() > 0){
+                if (addresses.size() > 0) {
                     Address a = addresses.get(0);
                     initializeInputs(firstStreetInput, firstCityInput, firstZipCodeInput, firstHouseNumberInput, firstApartamentNumberInput, firstStateInput, a);
-                    if(addresses.size() > 1){
+                    if (addresses.size() > 1) {
                         a = addresses.get(1);
                         initializeInputs(secondStreetInput, secondCityInput, secondZipCodeInput, secondHouseNumberInput, secondApartamentNumberInput, secondStateInput, a);
                     }
@@ -142,7 +153,7 @@ public class EditUserPaneController implements Initializable {
             addUserButton.setOnAction(event -> {
                 List<Address> addresses;
 
-                if(user == null){
+                if (user == null) {
                     user = new User();
                     addresses = new ArrayList<>();
                 } else {
@@ -153,22 +164,25 @@ public class EditUserPaneController implements Initializable {
                 user.setLastName(lastNameInput.getText());
                 user.setPhoneNumber(phoneNumberInput.getText());
                 user.setPassword(passwordInput.getText());
-                user.setRole(pickRole.getValue());
-
+                if (isAdmin) {
+                    user.setRole(pickRole.getValue());
+                } else {
+                    user.setRole(roleService.findRoleByRole("PATIENT").get());
+                }
 
                 List<Address> addressesToAdd = new ArrayList<>();
 
-                if(addresses.size() == 0){
+                if (addresses.size() == 0) {
                     Address ad = createAddressFromInput(firstStreetInput, firstCityInput, firstZipCodeInput, firstHouseNumberInput, firstApartamentNumberInput, firstStateInput, null);
                     addressesToAdd.add(ad);
-                    if(!secondCityInput.getText().equals("")){
+                    if (!secondCityInput.getText().equals("")) {
                         ad = createAddressFromInput(secondStreetInput, secondCityInput, secondZipCodeInput, secondHouseNumberInput, secondApartamentNumberInput, secondStateInput, null);
                         addressesToAdd.add(ad);
                     }
-                } else if(addresses.size() == 1){
+                } else if (addresses.size() == 1) {
                     Address ad = createAddressFromInput(firstStreetInput, firstCityInput, firstZipCodeInput, firstHouseNumberInput, firstApartamentNumberInput, firstStateInput, addresses.get(0));
                     addressesToAdd.add(ad);
-                    if(!secondCityInput.getText().equals("")){
+                    if (!secondCityInput.getText().equals("")) {
                         ad = createAddressFromInput(secondStreetInput, secondCityInput, secondZipCodeInput, secondHouseNumberInput, secondApartamentNumberInput, secondStateInput, null);
                         addressesToAdd.add(ad);
                     }
@@ -183,13 +197,14 @@ public class EditUserPaneController implements Initializable {
                 user.setAddresses(addressSet);
 
                 List<Specialization> selectedSpecializations = pickSpecializations.getSelectionModel().getSelectedItems();
-                for(Specialization s : selectedSpecializations)
+                for (Specialization s : selectedSpecializations)
                     System.out.println(s);
 
                 Set<Specialization> specializationSet = new HashSet<>(selectedSpecializations);
-
-                user.getSpecializations().clear();
-                user.getSpecializations().addAll(specializationSet);
+                if (isAdmin) {
+                    user.getSpecializations().clear();
+                    user.getSpecializations().addAll(specializationSet);
+                }
 
                 userService.addUser(user);
 
@@ -198,13 +213,15 @@ public class EditUserPaneController implements Initializable {
                 alert.setHeaderText("User Added");
                 alert.setContentText("User has been added successfully");
                 alert.showAndWait();
+                Stage stage = (Stage) addUserButton.getScene().getWindow();
+                stage.close();
 
             });
         });
     }
 
-    public Address createAddressFromInput(TextField street, TextField city, TextField zipCode, TextField houseNumber, TextField apartamentNumber, TextField state, Address address){
-        if(address == null){
+    public Address createAddressFromInput(TextField street, TextField city, TextField zipCode, TextField houseNumber, TextField apartamentNumber, TextField state, Address address) {
+        if (address == null) {
             address = new Address(street.getText(), city.getText(), zipCode.getText(), houseNumber.getText(), apartamentNumber.getText(), state.getText());
         } else {
             address.setStreet(street.getText());
@@ -217,7 +234,7 @@ public class EditUserPaneController implements Initializable {
         return address;
     }
 
-    public void initializeInputs(TextField street, TextField city, TextField zipCode, TextField houseNumber, TextField apartamentNumber, TextField state, Address address){
+    public void initializeInputs(TextField street, TextField city, TextField zipCode, TextField houseNumber, TextField apartamentNumber, TextField state, Address address) {
         street.setText(address.getStreet());
         city.setText(address.getCity());
         zipCode.setText(address.getZipCode());

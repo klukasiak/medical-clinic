@@ -7,13 +7,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import tk.kdev.medicalclinic.model.Specialization;
 import tk.kdev.medicalclinic.model.User;
 import tk.kdev.medicalclinic.model.Visit;
 import tk.kdev.medicalclinic.service.RoleService;
-import tk.kdev.medicalclinic.service.SpecializationService;
 import tk.kdev.medicalclinic.service.UserService;
 import tk.kdev.medicalclinic.service.VisitService;
 
@@ -42,7 +41,7 @@ public class EditVisitPaneController implements Initializable {
 
     private Visit visitToChange;
 
-    public void setVisitToChange(Visit visit){
+    public void setVisitToChange(Visit visit) {
         visitToChange = visit;
     }
 
@@ -62,10 +61,10 @@ public class EditVisitPaneController implements Initializable {
             LocalTime endTime = LocalTime.of(15, 0);
             List<LocalTime> availableHours = new ArrayList<>();
 
-            do{
+            do {
                 availableHours.add(startTime);
                 startTime = startTime.plus(Duration.ofMinutes(30));
-            } while(startTime.isBefore(endTime));
+            } while (startTime.isBefore(endTime));
 
             timeToChange.getItems().setAll(availableHours);
 
@@ -80,14 +79,16 @@ public class EditVisitPaneController implements Initializable {
 
             submitButton.setOnAction(event -> {
                 Optional<Visit> isBusy = visitService.getVisitByDoctorDateTime(docToChange.getValue(), dateToChange.getValue(), timeToChange.getValue());
-                if(isBusy.isPresent()){
+                if (isBusy.isPresent()) {
                     showAlert("Cannot edit visit. This term is busy", "Edit Visit", "OH!");
-                } else{
+                } else {
                     visitToChange.setDoctor(docToChange.getValue());
                     visitToChange.setVisitDate(dateToChange.getValue());
                     visitToChange.setVisitTime(timeToChange.getValue());
                     visitService.addVisit(visitToChange);
                     showAlert("Your visit edited :D", "Edit visit", "Success");
+                    Stage stage = (Stage) submitButton.getScene().getWindow();
+                    stage.close();
                 }
             });
         });

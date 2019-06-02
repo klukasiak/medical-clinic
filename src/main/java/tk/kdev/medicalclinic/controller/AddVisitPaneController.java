@@ -16,7 +16,9 @@ import tk.kdev.medicalclinic.service.UserService;
 import tk.kdev.medicalclinic.service.VisitService;
 
 import java.net.URL;
-import java.time.*;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,19 +94,19 @@ public class AddVisitPaneController implements Initializable {
             LocalDate date = suggestedDate.getValue();
             List<Visit> visits = visitService.getAllByDateAndDoctor(doctorPick.getValue(), date);
             List<LocalTime> busyHours = new ArrayList<>();
-            for(Visit v : visits)
+            for (Visit v : visits)
                 busyHours.add(v.getVisitTime());
             LocalTime startTime = LocalTime.of(9, 0);
             LocalTime endTime = LocalTime.of(15, 0);
             List<Visit> visitsForPatient = new ArrayList<>();
-            do{
-               if(!busyHours.contains(startTime)){
-                   Visit v = new Visit(date, startTime, user, doctorPick.getValue());
-                   System.out.println(v);
-                   visitsForPatient.add(v);
-               }
-               startTime = startTime.plus(Duration.ofMinutes(30));
-            } while(startTime.isBefore(endTime));
+            do {
+                if (!busyHours.contains(startTime)) {
+                    Visit v = new Visit(date, startTime, user, doctorPick.getValue());
+                    System.out.println(v);
+                    visitsForPatient.add(v);
+                }
+                startTime = startTime.plus(Duration.ofMinutes(30));
+            } while (startTime.isBefore(endTime));
 
             tableView.setItems(FXCollections.observableList(visitsForPatient));
         });

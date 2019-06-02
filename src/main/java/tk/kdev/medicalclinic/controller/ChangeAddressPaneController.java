@@ -88,6 +88,8 @@ public class ChangeAddressPaneController implements Initializable {
             Set<Address> setAddress = new HashSet<>(addressList);
             userToAdd.setAddresses(setAddress);
             userService.addUser(userToAdd);
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
         });
 
         cancelButton.setOnAction(event -> {

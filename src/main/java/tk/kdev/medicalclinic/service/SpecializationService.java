@@ -6,7 +6,6 @@ import tk.kdev.medicalclinic.model.Specialization;
 import tk.kdev.medicalclinic.repository.SpecializationRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SpecializationService {
@@ -18,7 +17,7 @@ public class SpecializationService {
         return specialRepo.findSpecializationBySpecialization(specialization);
     }
 
-    public List<Specialization> getAllSpecializations(){
+    public List<Specialization> getAllSpecializations() {
         return specialRepo.findAll();
     }
 }

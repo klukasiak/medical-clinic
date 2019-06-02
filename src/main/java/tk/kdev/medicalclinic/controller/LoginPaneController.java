@@ -33,6 +33,9 @@ public class LoginPaneController implements Initializable {
     @FXML
     private Label testLabel;
 
+    @FXML
+    private Button register;
+
     @Autowired
     private UserService userService;
 
@@ -61,6 +64,23 @@ public class LoginPaneController implements Initializable {
                 showAlert(e.toString());
             } catch (LoginAndPasswordNotMatch e) {
                 showAlert(e.toString());
+            }
+        });
+
+        register.setOnAction(event -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/EditUserPane.fxml"));
+                fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
+                Parent root = fxmlLoader.load();
+                EditUserPaneController eupc = fxmlLoader.getController();
+                eupc.setUser(null);
+                eupc.setIsAdmin(false);
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

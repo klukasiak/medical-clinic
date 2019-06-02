@@ -25,7 +25,7 @@ public class User {
     @Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "pesel")
+    @Column(name = "pesel", unique = true)
     private String pesel;
 
     @Column(name = "phoneNumber")
@@ -169,10 +169,6 @@ public class User {
 
     @Override
     public String toString() {
-        return firstName + " " + lastName;
-    }
-
-    public String getFullName(){
         return firstName + " " + lastName;
     }
 }

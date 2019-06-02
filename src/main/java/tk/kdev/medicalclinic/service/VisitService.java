@@ -17,23 +17,23 @@ public class VisitService {
     @Autowired
     private VisitRepository visitRepository;
 
-    public List<Visit> getAllByPatientId(Long id){
+    public List<Visit> getAllByPatientId(Long id) {
         return visitRepository.getAllByPatientId(id);
     }
 
-    public List<Visit> getAllByDateAndDoctor(User user, LocalDate visitDate){
+    public List<Visit> getAllByDateAndDoctor(User user, LocalDate visitDate) {
         return visitRepository.getAllByDoctorAndVisitDate(user, visitDate);
     }
 
-    public void addVisit(Visit visit){
+    public void addVisit(Visit visit) {
         visitRepository.save(visit);
     }
 
-    public Optional<Visit> getVisitByDoctorDateTime(User doctor, LocalDate visitDate, LocalTime visitTime){
+    public Optional<Visit> getVisitByDoctorDateTime(User doctor, LocalDate visitDate, LocalTime visitTime) {
         return visitRepository.getVisitByDoctorAndVisitDateAndVisitTime(doctor, visitDate, visitTime);
     }
 
-    public List<Visit> getAllVisits(){
+    public List<Visit> getAllVisits() {
         return visitRepository.findAll();
     }
 }

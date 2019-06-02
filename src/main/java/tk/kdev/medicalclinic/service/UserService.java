@@ -37,19 +37,19 @@ public class UserService {
         repo.save(user);
     }
 
-    public List<User> findUserBySpecialization(Specialization specialization){
+    public List<User> findUserBySpecialization(Specialization specialization) {
         return repo.findUserBySpecializations(specialization);
     }
 
-    public List<User> getUsersByRole(Role role){
+    public List<User> getUsersByRole(Role role) {
         return repo.findUserByRole(role);
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return repo.findAll();
     }
 
-    public User getUserByPesel(String pesel){
+    public User getUserByPesel(String pesel) {
         return repo.findUserByPesel(pesel);
     }
 }

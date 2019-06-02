@@ -70,7 +70,6 @@ public class SelfEditPaneController implements Initializable {
             showAlert();
             Stage stage = (Stage) addButton.getScene().getWindow();
             stage.close();
-            System.out.println(newUser + " added");
         });
     }
 
