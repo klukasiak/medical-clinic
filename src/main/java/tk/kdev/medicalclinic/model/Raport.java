@@ -34,6 +34,11 @@ public class Raport {
 
     }
 
+    public Raport(String description, LocalDate dateRaport) {
+        this.description = description;
+        this.dateRaport = dateRaport;
+    }
+
     public Long getId() {
         return id;
     }

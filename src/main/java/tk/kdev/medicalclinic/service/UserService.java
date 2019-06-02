@@ -48,4 +48,8 @@ public class UserService {
     public List<User> getAllUsers(){
         return repo.findAll();
     }
+
+    public User getUserByPesel(String pesel){
+        return repo.findUserByPesel(pesel);
+    }
 }
