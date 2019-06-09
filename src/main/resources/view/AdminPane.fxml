@@ -41,6 +41,11 @@
                                        <HBox.margin>
                                           <Insets left="15.0" right="15.0" />
                                        </HBox.margin></Button>
+                                    <Button fx:id="deleteUser" mnemonicParsing="false" style="-fx-background-radius: 10; -fx-background-color: #f44242;" text="Delete">
+                                       <HBox.margin>
+                                          <Insets right="15.0" />
+                                       </HBox.margin>
+                                    </Button>
                                                 <Button fx:id="refreshButton" mnemonicParsing="false" style="-fx-background-radius: 10;">
                                        <graphic>
                                           <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
@@ -49,6 +54,11 @@
                                              </image>
                                           </ImageView>
                                        </graphic></Button>
+                                    <Button fx:id="logoutButton" mnemonicParsing="false" style="-fx-background-radius: 15;" text="Logout">
+                                       <HBox.margin>
+                                          <Insets left="40.0" />
+                                       </HBox.margin>
+                                    </Button>
                                             </children>
                                         </HBox>
                                     </children>

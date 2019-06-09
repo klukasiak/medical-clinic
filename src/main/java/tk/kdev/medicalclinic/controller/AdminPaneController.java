@@ -87,6 +87,12 @@ public class AdminPaneController implements Initializable {
     @FXML
     private Button refreshButton;
 
+    @FXML
+    private Button logoutButton;
+
+    @FXML
+    private Button deleteUser;
+
     @Autowired
     private UserService userService;
 
@@ -182,6 +188,23 @@ public class AdminPaneController implements Initializable {
                 e.printStackTrace();
             }
 
+        });
+
+        logoutButton.setOnAction(event -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LoginPane.fxml"));
+                LoginPaneController.openNewWindow(fxmlLoader);
+                Stage stage2 = (Stage) logoutButton.getScene().getWindow();
+                stage2.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        deleteUser.setOnAction(event -> {
+            User fromTable = userTable.getSelectionModel().getSelectedItem();
+            userService.deleteUserByUser(fromTable);
+            System.out.println("Deleted");
         });
     }
 }

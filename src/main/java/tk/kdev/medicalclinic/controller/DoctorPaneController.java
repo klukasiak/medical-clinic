@@ -3,9 +3,11 @@ package tk.kdev.medicalclinic.controller;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.model.Raport;
@@ -15,6 +17,7 @@ import tk.kdev.medicalclinic.service.RaportService;
 import tk.kdev.medicalclinic.service.UserService;
 import tk.kdev.medicalclinic.service.VisitService;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -72,6 +75,9 @@ public class DoctorPaneController implements Initializable {
 
     @FXML
     private DatePicker datePick;
+
+    @FXML
+    private Button logoutButton;
 
     private User user;
 
@@ -137,6 +143,17 @@ public class DoctorPaneController implements Initializable {
                 List<Raport> raports = raportService.getAllRaportsByUserId(patient.getId());
                 raportTable.setItems(FXCollections.observableList(raports));
             });
+        });
+
+        logoutButton.setOnAction(event -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LoginPane.fxml"));
+                LoginPaneController.openNewWindow(fxmlLoader);
+                Stage stage2 = (Stage) logoutButton.getScene().getWindow();
+                stage2.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 }

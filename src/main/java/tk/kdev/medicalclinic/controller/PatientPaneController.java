@@ -126,6 +126,9 @@ public class PatientPaneController implements Initializable {
     @FXML
     private Button editVisitButton;
 
+    @FXML
+    private Button deleteVisitButton;
+
     private User userMemory;
 
     public void setUser(User user) {
@@ -186,6 +189,9 @@ public class PatientPaneController implements Initializable {
                 userMemory = userService.findById(userMemory.getId());
                 setPersonalLabels(userMemory);
                 takeAddressesAndSetLabels();
+                ObservableList<Visit> visits = FXCollections.observableList(visitService.getAllByPatientId(userMemory.getId()));
+                visitTable.setItems(visits);
+                visitTable.getSortOrder().add(dateColumn);
             } catch (UserNotFoundException e) {
                 e.printStackTrace();
             }
@@ -224,6 +230,11 @@ public class PatientPaneController implements Initializable {
                 e.printStackTrace();
                 System.out.println(e);
             }
+        });
+
+        deleteVisitButton.setOnAction(event -> {
+            visitService.deleteVisitByVisit(visitTable.getSelectionModel().getSelectedItem());
+            System.out.println("Deleted");
         });
     }
 
@@ -285,8 +296,6 @@ public class PatientPaneController implements Initializable {
                 }
         );
         ObservableList<Visit> visits = FXCollections.observableList(visitService.getAllByPatientId(userMemory.getId()));
-        for (Visit v : visits)
-            System.out.println(v);
         visitTable.setItems(visits);
         visitTable.getSortOrder().add(dateColumn);
     }

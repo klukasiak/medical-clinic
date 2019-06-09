@@ -39,6 +39,9 @@ public class EditUserPaneController implements Initializable {
     private TextField phoneNumberInput;
 
     @FXML
+    private TextField peselInput;
+
+    @FXML
     private ChoiceBox<Role> pickRole;
 
     @FXML
@@ -129,6 +132,7 @@ public class EditUserPaneController implements Initializable {
                 usernameInput.setText(user.getUsername());
                 firstNameInput.setText(user.getFirstName());
                 lastNameInput.setText(user.getLastName());
+                peselInput.setText(user.getPesel());
                 phoneNumberInput.setText(user.getPhoneNumber());
                 passwordInput.setText(user.getPassword());
                 List<Role> userRole = new ArrayList<>(user.getRoles());
@@ -153,7 +157,6 @@ public class EditUserPaneController implements Initializable {
 
             addUserButton.setOnAction(event -> {
                 List<Address> addresses;
-                //ToDo rola zepsula rejestracje sprawdzic
                 if (user == null) {
                     user = new User();
                     addresses = new ArrayList<>();
@@ -164,6 +167,7 @@ public class EditUserPaneController implements Initializable {
                 user.setFirstName(firstNameInput.getText());
                 user.setLastName(lastNameInput.getText());
                 user.setPhoneNumber(phoneNumberInput.getText());
+                user.setPesel(peselInput.getText());
                 user.setPassword(passwordInput.getText());
                 if (isAdmin) {
                     Set<Role> roles = new HashSet<>();

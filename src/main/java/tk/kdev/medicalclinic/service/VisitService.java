@@ -36,4 +36,8 @@ public class VisitService {
     public List<Visit> getAllVisits() {
         return visitRepository.findAll();
     }
+
+    public void deleteVisitByVisit(Visit visit){
+        visitRepository.delete(visit);
+    }
 }

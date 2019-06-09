@@ -1,5 +1,7 @@
 package tk.kdev.medicalclinic.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -35,10 +37,12 @@ public class Visit {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id_user")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User patient;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id_user")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User doctor;
 
     public Long getId() {

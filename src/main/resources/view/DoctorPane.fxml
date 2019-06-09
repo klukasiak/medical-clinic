@@ -39,6 +39,7 @@
                                                 <TableColumn fx:id="patientSchedulde" prefWidth="360.0" text="Patient" />
                                             </columns>
                                         </TableView>
+                              <Button fx:id="logoutButton" mnemonicParsing="false" text="Logout" />
                                     </children>
                                 </VBox>
                             </children>

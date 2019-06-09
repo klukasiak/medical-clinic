@@ -314,6 +314,7 @@
                                                     <children>
                                                         <Button fx:id="addVisitButton" mnemonicParsing="false" text="Add Visit" />
                                                         <Button fx:id="editVisitButton" mnemonicParsing="false" text="Edit Visit" />
+                                          <Button fx:id="deleteVisitButton" mnemonicParsing="false" text="Delete Visit" />
                                                     </children>
                                                 </HBox>
                                             </children>

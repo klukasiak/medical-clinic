@@ -53,4 +53,8 @@ public class UserService {
     public User getUserByPesel(String pesel) {
         return repo.findUserByPesel(pesel);
     }
+
+    public void deleteUserByUser(User user){
+        repo.delete(user);
+    }
 }
