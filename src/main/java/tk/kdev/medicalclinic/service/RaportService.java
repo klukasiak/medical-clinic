@@ -16,4 +16,12 @@ public class RaportService {
     public List<Raport> getAllRaportsByUserId(Long id) {
         return raportRepo.getAllByUserId(id);
     }
+
+    public void addRaport(Raport raport){
+        raportRepo.save(raport);
+    }
+
+    public void deleteRaport(Raport raport){
+        raportRepo.delete(raport);
+    }
 }

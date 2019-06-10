@@ -39,7 +39,7 @@ public class User {
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "id_user")},
             inverseJoinColumns = {@JoinColumn(name = "id_role")})
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
@@ -170,6 +170,18 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role){
+        if(roles.contains(role))
+            return ;
+        roles.add(role);
+    }
+
+    public void addSpecialization(Specialization specialization){
+        if(specializations.contains(specialization))
+            return ;
+        specializations.add(specialization);
     }
 
     @Override

@@ -20,4 +20,12 @@ public class SpecializationService {
     public List<Specialization> getAllSpecializations() {
         return specialRepo.findAll();
     }
+
+    public void addSpecialization(Specialization specialization){
+        specialRepo.save(specialization);
+    }
+
+    public void deleteSpecialization(Specialization specialization){
+        specialRepo.delete(specialization);
+    }
 }

@@ -10,21 +10,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.Main;
+import tk.kdev.medicalclinic.model.Specialization;
 import tk.kdev.medicalclinic.model.User;
-import tk.kdev.medicalclinic.model.Visit;
+import tk.kdev.medicalclinic.service.SpecializationService;
 import tk.kdev.medicalclinic.service.UserService;
 import tk.kdev.medicalclinic.service.VisitService;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -64,27 +65,6 @@ public class AdminPaneController implements Initializable {
     private Button addUser;
 
     @FXML
-    private TableView<Visit> visitTable;
-
-    @FXML
-    private TableColumn<Visit, Long> idVisitCol;
-
-    @FXML
-    private TableColumn<Visit, LocalDate> dateVisitCol;
-
-    @FXML
-    private TableColumn<Visit, LocalTime> timeVisitCol;
-
-    @FXML
-    private TableColumn<Visit, String> patientVisitCol;
-
-    @FXML
-    private TableColumn<Visit, String> doctorVisitCol;
-
-    @FXML
-    private Button editVisit;
-
-    @FXML
     private Button refreshButton;
 
     @FXML
@@ -93,16 +73,36 @@ public class AdminPaneController implements Initializable {
     @FXML
     private Button deleteUser;
 
+    @FXML
+    private TableView<Specialization> specializationTable;
+
+    @FXML
+    private TableColumn<Specialization, Long> idSpecializationCol;
+
+    @FXML
+    private TableColumn<Specialization, String> specializationCol;
+
+    @FXML
+    private Button addSpecialization;
+
+    @FXML
+    private Button editSpecialization;
+
+    @FXML
+    private Button removeSpecialization;
+
     @Autowired
     private UserService userService;
 
     @Autowired
     private VisitService visitService;
 
+    @Autowired
+    private SpecializationService specializationService;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         List<User> users = userService.getAllUsers();
-        List<Visit> visits = visitService.getAllVisits();
 
         idUserCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         firstNameUserCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -127,27 +127,13 @@ public class AdminPaneController implements Initializable {
 
         userTable.setItems(FXCollections.observableList(users));
 
+        idSpecializationCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        specializationCol.setCellValueFactory(new PropertyValueFactory<>("specialization"));
 
-        idVisitCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        dateVisitCol.setCellValueFactory(new PropertyValueFactory<>("visitDate"));
-        timeVisitCol.setCellValueFactory(new PropertyValueFactory<>("visitTime"));
-        patientVisitCol.setCellValueFactory(
-                Visit -> {
-                    SimpleObjectProperty property = new SimpleObjectProperty();
-                    property.setValue(Visit.getValue().getPatient().getFirstName() + " " + Visit.getValue().getPatient().getLastName());
-                    return property;
-                }
-        );
+        List<Specialization> specializations = specializationService.getAllSpecializations();
 
-        doctorVisitCol.setCellValueFactory(
-                Visit -> {
-                    SimpleObjectProperty property = new SimpleObjectProperty();
-                    property.setValue(Visit.getValue().getDoctor().getFirstName() + " " + Visit.getValue().getDoctor().getLastName());
-                    return property;
-                }
-        );
+        specializationTable.setItems(FXCollections.observableList(specializations));
 
-        visitTable.setItems(FXCollections.observableList(visits));
 
         addUser.setOnAction(event -> {
             try {
@@ -164,6 +150,8 @@ public class AdminPaneController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            userTable.setItems(FXCollections.observableList(userService.getAllUsers()));
         });
 
         refreshButton.setOnAction(event -> {
@@ -187,7 +175,7 @@ public class AdminPaneController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            userTable.setItems(FXCollections.observableList(userService.getAllUsers()));
         });
 
         logoutButton.setOnAction(event -> {
@@ -205,6 +193,43 @@ public class AdminPaneController implements Initializable {
             User fromTable = userTable.getSelectionModel().getSelectedItem();
             userService.deleteUserByUser(fromTable);
             System.out.println("Deleted");
+            userTable.setItems(FXCollections.observableList(userService.getAllUsers()));
         });
+
+        addSpecialization.setOnAction(event -> {
+            createSpecialization(null);
+            specializationTable.setItems(FXCollections.observableList(specializationService.getAllSpecializations()));
+        });
+
+        editSpecialization.setOnAction(event -> {
+            createSpecialization(specializationTable.getSelectionModel().getSelectedItem());
+            specializationTable.setItems(FXCollections.observableList(specializationService.getAllSpecializations()));
+        });
+
+        removeSpecialization.setOnAction(event -> {
+            specializationService.deleteSpecialization(specializationTable.getSelectionModel().getSelectedItem());
+            specializationTable.setItems(FXCollections.observableList(specializationService.getAllSpecializations()));
+        });
+
+    }
+
+    public void createSpecialization(Specialization specialization) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Specialization");
+        dialog.setHeaderText("Create Specialization:");
+        dialog.setContentText("Spec: ");
+
+        if (specialization == null)
+            specialization = new Specialization();
+
+        dialog.getEditor().setText(specialization.getSpecialization());
+
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            specialization.setSpecialization(result.get());
+            specializationService.addSpecialization(specialization);
+        }
+
     }
 }

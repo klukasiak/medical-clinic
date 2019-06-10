@@ -24,6 +24,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 @Component
 public class DoctorPaneController implements Initializable {
@@ -78,6 +79,12 @@ public class DoctorPaneController implements Initializable {
 
     @FXML
     private Button logoutButton;
+
+    @FXML
+    private Button editRaport;
+
+    @FXML
+    private Button deleteRaport;
 
     private User user;
 
@@ -155,5 +162,33 @@ public class DoctorPaneController implements Initializable {
                 e.printStackTrace();
             }
         });
+
+        editRaport.setOnAction(event -> {
+            editTakenRaport(raportTable.getSelectionModel().getSelectedItem());
+            User patient = userService.getUserByPesel(peselInput.getText());
+            List<Raport> raports = raportService.getAllRaportsByUserId(patient.getId());
+            raportTable.setItems(FXCollections.observableList(raports));
+        });
+
+        deleteRaport.setOnAction(event -> {
+            raportService.deleteRaport(raportTable.getSelectionModel().getSelectedItem());
+            User patient = userService.getUserByPesel(peselInput.getText());
+            List<Raport> raports = raportService.getAllRaportsByUserId(patient.getId());
+            raportTable.setItems(FXCollections.observableList(raports));
+        });
+    }
+
+    public void editTakenRaport(Raport raport){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Add raport");
+        dialog.setHeaderText("Add raport for patient:");
+        dialog.setContentText("Description: ");
+
+        Optional<String> result = dialog.showAndWait();
+
+        if(result.isPresent()){
+            raport.setDescription(result.get());
+            raportService.addRaport(raport);
+        }
     }
 }

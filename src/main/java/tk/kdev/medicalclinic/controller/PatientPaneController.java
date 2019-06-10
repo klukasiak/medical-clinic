@@ -171,6 +171,7 @@ public class PatientPaneController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         });
 
         raportHistoryButton.setOnAction(event -> {
@@ -211,6 +212,7 @@ public class PatientPaneController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            visitTable.setItems(FXCollections.observableList(visitService.getAllVisits()));
         });
 
         editVisitButton.setOnAction(event -> {
@@ -230,11 +232,15 @@ public class PatientPaneController implements Initializable {
                 e.printStackTrace();
                 System.out.println(e);
             }
+            visitTable.setItems(FXCollections.observableList(visitService.getAllVisits()));
+
         });
 
         deleteVisitButton.setOnAction(event -> {
             visitService.deleteVisitByVisit(visitTable.getSelectionModel().getSelectedItem());
             System.out.println("Deleted");
+            visitTable.setItems(FXCollections.observableList(visitService.getAllVisits()));
+
         });
     }
 

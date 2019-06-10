@@ -77,4 +77,11 @@ public class Raport {
                 ", dateRaport=" + dateRaport +
                 '}';
     }
+
+    @PreRemove
+    private void deleteRaportFromUser(){
+        for(User u : user){
+            u.getRaports().remove(this);
+        }
+    }
 }

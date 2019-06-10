@@ -57,6 +57,12 @@ public class Specialization {
     @Override
     public String toString() {
         return specialization;
+    }
 
+    @PreRemove
+    private void deleteSpecializationFromUser(){
+        for(User u : user){
+            u.getSpecializations().remove(this);
+        }
     }
 }

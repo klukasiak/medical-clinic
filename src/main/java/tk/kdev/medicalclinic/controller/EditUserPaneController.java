@@ -118,11 +118,11 @@ public class EditUserPaneController implements Initializable {
                 pickSpecializations.setDisable(true);
             }
 
+            List<Role> roles = roleService.getAllRoles();
+            List<Specialization> specializations = specializationService.getAllSpecializations();
+
             if (isAdmin) {
                 pickSpecializations.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-                List<Role> roles = roleService.getAllRoles();
-                List<Specialization> specializations = specializationService.getAllSpecializations();
 
                 pickRole.setItems(FXCollections.observableList(roles));
                 pickSpecializations.setItems(FXCollections.observableList(specializations));
@@ -135,8 +135,6 @@ public class EditUserPaneController implements Initializable {
                 peselInput.setText(user.getPesel());
                 phoneNumberInput.setText(user.getPhoneNumber());
                 passwordInput.setText(user.getPassword());
-                List<Role> userRole = new ArrayList<>(user.getRoles());
-                pickRole.setValue(userRole.get(0));
 
                 List<Specialization> userSpecializations = new ArrayList<>(user.getSpecializations());
                 for (Specialization s : userSpecializations) {
@@ -169,15 +167,16 @@ public class EditUserPaneController implements Initializable {
                 user.setPhoneNumber(phoneNumberInput.getText());
                 user.setPesel(peselInput.getText());
                 user.setPassword(passwordInput.getText());
+                userService.addUser(user);
                 if (isAdmin) {
-                    Set<Role> roles = new HashSet<>();
-                    roles.add(pickRole.getValue());
-                    user.setRoles(roles);
+                    user.addRole(pickRole.getValue());
                 } else {
-                    Set<Role> roles = new HashSet<>();
-                    roles.add(roleService.findRoleByRole("PATIENT").get());
-                    user.setRoles(roles);
+                    Set<Role> patientRole = new HashSet<>();
+                    patientRole.add(roles.get(0));
+                    user.setRoles(patientRole);
                 }
+
+                userService.addUser(user);
 
                 List<Address> addressesToAdd = new ArrayList<>();
 
@@ -206,13 +205,13 @@ public class EditUserPaneController implements Initializable {
                 user.setAddresses(addressSet);
 
                 List<Specialization> selectedSpecializations = pickSpecializations.getSelectionModel().getSelectedItems();
-                for (Specialization s : selectedSpecializations)
-                    System.out.println(s);
+                System.out.println(selectedSpecializations);
+                userService.addUser(user);
 
-                Set<Specialization> specializationSet = new HashSet<>(selectedSpecializations);
                 if (isAdmin) {
                     user.getSpecializations().clear();
-                    user.getSpecializations().addAll(specializationSet);
+                    for(Specialization s : selectedSpecializations)
+                        user.addSpecialization(s);
                 }
 
                 userService.addUser(user);

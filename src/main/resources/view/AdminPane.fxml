@@ -67,32 +67,23 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Visits">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <VBox prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <children>
-                                        <TableView fx:id="visitTable" prefHeight="200.0" prefWidth="200.0">
-                                            <columns>
-                                                <TableColumn fx:id="idVisitCol" prefWidth="75.0" text="Id" />
-                                                <TableColumn fx:id="dateVisitCol" prefWidth="75.0" text="Date" />
-                                                <TableColumn fx:id="timeVisitCol" prefWidth="75.0" text="Time" />
-                                                <TableColumn fx:id="patientVisitCol" prefWidth="75.0" text="Patient" />
-                                                <TableColumn fx:id="doctorVisitCol" prefWidth="75.0" text="Doctor" />
-                                            </columns>
-                                        </TableView>
-                                        <HBox prefHeight="100.0" prefWidth="200.0">
-                                            <children>
-                                                <Button fx:id="editVisit" mnemonicParsing="false" style="-fx-background-color: #a489ff; -fx-background-radius: 10;" text="Edit" />
-                                            </children>
-                                        </HBox>
-                                    </children>
-                                </VBox>
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
+            <Tab text="Specialization">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="specializationTable" layoutX="35.0" layoutY="14.0" prefHeight="200.0" prefWidth="285.0">
+                          <columns>
+                            <TableColumn fx:id="idSpecializationCol" prefWidth="75.0" text="Id" />
+                            <TableColumn fx:id="specializationCol" prefWidth="207.0" text="Spepcialization" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="addSpecialization" layoutX="35.0" layoutY="243.0" mnemonicParsing="false" text="Add" />
+                        <Button fx:id="editSpecialization" layoutX="95.0" layoutY="243.0" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="removeSpecialization" layoutX="152.0" layoutY="243.0" mnemonicParsing="false" text="Remove" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
             </tabs>
         </TabPane>
     </children>
