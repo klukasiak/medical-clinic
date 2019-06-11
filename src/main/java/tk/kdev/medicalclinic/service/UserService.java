@@ -8,6 +8,7 @@ import tk.kdev.medicalclinic.model.Specialization;
 import tk.kdev.medicalclinic.model.User;
 import tk.kdev.medicalclinic.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class UserService {
         return repo.findUserByUsername(username).orElseThrow(UserNotFoundException::new);
     }
 
+    @Transactional
     public void addUser(User user) {
         repo.save(user);
     }

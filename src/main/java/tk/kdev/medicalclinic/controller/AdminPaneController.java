@@ -147,11 +147,12 @@ public class AdminPaneController implements Initializable {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+                stage.setOnCloseRequest(event1 -> {
+                    userTable.setItems(FXCollections.observableList(userService.getAllUsers()));
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            userTable.setItems(FXCollections.observableList(userService.getAllUsers()));
         });
 
         refreshButton.setOnAction(event -> {
@@ -172,10 +173,12 @@ public class AdminPaneController implements Initializable {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+                stage.setOnCloseRequest(event1 -> {
+                    userTable.setItems(FXCollections.observableList(userService.getAllUsers()));
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            userTable.setItems(FXCollections.observableList(userService.getAllUsers()));
         });
 
         logoutButton.setOnAction(event -> {

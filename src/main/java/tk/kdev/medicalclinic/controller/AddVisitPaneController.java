@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.model.Specialization;
@@ -120,6 +122,15 @@ public class AddVisitPaneController implements Initializable {
             alert.setContentText("Your visit has been added");
             alert.showAndWait();
             tableView.getItems().clear();
+            Stage stage = (Stage) addVisit.getScene().getWindow();
+            stage.getOnCloseRequest()
+                    .handle(
+                            new WindowEvent(
+                                    stage,
+                                    WindowEvent.WINDOW_CLOSE_REQUEST
+                            )
+                    );
+            stage.close();
         });
 
     }

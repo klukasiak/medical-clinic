@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.model.Role;
@@ -88,6 +89,13 @@ public class EditVisitPaneController implements Initializable {
                     visitService.addVisit(visitToChange);
                     showAlert("Your visit edited :D", "Edit visit", "Success");
                     Stage stage = (Stage) submitButton.getScene().getWindow();
+                    stage.getOnCloseRequest()
+                            .handle(
+                                    new WindowEvent(
+                                            stage,
+                                            WindowEvent.WINDOW_CLOSE_REQUEST
+                                    )
+                            );
                     stage.close();
                 }
             });

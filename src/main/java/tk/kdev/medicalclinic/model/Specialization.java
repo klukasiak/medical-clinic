@@ -54,6 +54,11 @@ public class Specialization {
         this.user = user;
     }
 
+    public void addUser(User u){
+        this.user.add(u);
+        u.getSpecializations().add(this);
+    }
+
     @Override
     public String toString() {
         return specialization;

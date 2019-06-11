@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.model.Address;
@@ -169,14 +170,14 @@ public class EditUserPaneController implements Initializable {
                 user.setPassword(passwordInput.getText());
                 userService.addUser(user);
                 if (isAdmin) {
-                    user.addRole(pickRole.getValue());
+                    Optional<Role> picked = roleService.findRoleByRole(pickRole.getValue().getRole());
+                    picked.ifPresent(role -> user.addRole(role));
                 } else {
                     Set<Role> patientRole = new HashSet<>();
                     patientRole.add(roles.get(0));
                     user.setRoles(patientRole);
                 }
 
-                userService.addUser(user);
 
                 List<Address> addressesToAdd = new ArrayList<>();
 
@@ -206,7 +207,7 @@ public class EditUserPaneController implements Initializable {
 
                 List<Specialization> selectedSpecializations = pickSpecializations.getSelectionModel().getSelectedItems();
                 System.out.println(selectedSpecializations);
-                userService.addUser(user);
+
 
                 if (isAdmin) {
                     user.getSpecializations().clear();
@@ -222,8 +223,14 @@ public class EditUserPaneController implements Initializable {
                 alert.setContentText("User has been added successfully");
                 alert.showAndWait();
                 Stage stage = (Stage) addUserButton.getScene().getWindow();
+                stage.getOnCloseRequest()
+                        .handle(
+                                new WindowEvent(
+                                        stage,
+                                        WindowEvent.WINDOW_CLOSE_REQUEST
+                                )
+                        );
                 stage.close();
-
             });
         });
     }

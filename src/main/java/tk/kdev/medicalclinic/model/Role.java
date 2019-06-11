@@ -46,6 +46,19 @@ public class Role {
         this.role = role;
     }
 
+    public Set<User> getUser() {
+        return user;
+    }
+
+    public void setUser(Set<User> user) {
+        this.user = user;
+    }
+
+    public void addUser(User u){
+        this.user.add(u);
+        u.getRoles().add(this);
+    }
+
     @Override
     public String toString() {
         return role;

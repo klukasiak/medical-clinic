@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.kdev.medicalclinic.model.Address;
@@ -89,6 +90,13 @@ public class ChangeAddressPaneController implements Initializable {
             userToAdd.setAddresses(setAddress);
             userService.addUser(userToAdd);
             Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.getOnCloseRequest()
+                    .handle(
+                            new WindowEvent(
+                                    stage,
+                                    WindowEvent.WINDOW_CLOSE_REQUEST
+                            )
+                    );
             stage.close();
         });
 

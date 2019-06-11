@@ -167,7 +167,20 @@ public class PatientPaneController implements Initializable {
 
         changePersonalDataButton.setOnAction(event -> {
             try {
-                callView("/view/SelfEditPane.fxml");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/SelfEditPane.fxml"));
+                fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
+                Parent root = fxmlLoader.load();
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+                stage.setOnCloseRequest(event1 -> {
+                    try {
+                        refreshData();
+                    } catch (UserNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -187,12 +200,7 @@ public class PatientPaneController implements Initializable {
 
         refreshButton.setOnAction(event -> {
             try {
-                userMemory = userService.findById(userMemory.getId());
-                setPersonalLabels(userMemory);
-                takeAddressesAndSetLabels();
-                ObservableList<Visit> visits = FXCollections.observableList(visitService.getAllByPatientId(userMemory.getId()));
-                visitTable.setItems(visits);
-                visitTable.getSortOrder().add(dateColumn);
+                refreshData();
             } catch (UserNotFoundException e) {
                 e.printStackTrace();
             }
@@ -200,7 +208,20 @@ public class PatientPaneController implements Initializable {
 
         changeAddress.setOnAction(event -> {
             try {
-                callView("/view/ChangeAddressPane.fxml");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ChangeAddressPane.fxml"));
+                fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
+                Parent root = fxmlLoader.load();
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+                stage.setOnCloseRequest(event1 -> {
+                    try {
+                        refreshData();
+                    } catch (UserNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -208,7 +229,20 @@ public class PatientPaneController implements Initializable {
 
         addVisitButton.setOnAction(event -> {
             try {
-                callView("/view/AddVisitPane.fxml");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddVisitPane.fxml"));
+                fxmlLoader.setControllerFactory(Main.getSpringContext()::getBean);
+                Parent root = fxmlLoader.load();
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+                stage.setOnCloseRequest(event1 -> {
+                    try {
+                        refreshData();
+                    } catch (UserNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -228,11 +262,13 @@ public class PatientPaneController implements Initializable {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+                stage.setOnCloseRequest(event1 -> {
+                    visitTable.setItems(FXCollections.observableList(visitService.getAllVisits()));
+                });
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e);
             }
-            visitTable.setItems(FXCollections.observableList(visitService.getAllVisits()));
 
         });
 
@@ -301,6 +337,15 @@ public class PatientPaneController implements Initializable {
                     return property;
                 }
         );
+        ObservableList<Visit> visits = FXCollections.observableList(visitService.getAllByPatientId(userMemory.getId()));
+        visitTable.setItems(visits);
+        visitTable.getSortOrder().add(dateColumn);
+    }
+
+    private void refreshData() throws UserNotFoundException {
+        userMemory = userService.findById(userMemory.getId());
+        setPersonalLabels(userMemory);
+        takeAddressesAndSetLabels();
         ObservableList<Visit> visits = FXCollections.observableList(visitService.getAllByPatientId(userMemory.getId()));
         visitTable.setItems(visits);
         visitTable.getSortOrder().add(dateColumn);
