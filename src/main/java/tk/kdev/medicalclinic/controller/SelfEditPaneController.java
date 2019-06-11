@@ -10,6 +10,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tk.kdev.medicalclinic.exception.NameException;
+import tk.kdev.medicalclinic.exception.PeselLengthException;
+import tk.kdev.medicalclinic.exception.PhoneNumberException;
 import tk.kdev.medicalclinic.model.User;
 import tk.kdev.medicalclinic.service.UserService;
 
@@ -63,22 +66,41 @@ public class SelfEditPaneController implements Initializable {
         });
 
         addButton.setOnAction(event -> {
-            User newUser = new User(usernameInput.getText(), passwordInput.getText(), firstNameInput.getText(), lastNameInput.getText(), peselInput.getText(), phoneNumberInput.getText());
-            newUser.setRoles(userMemory.getRoles());
-            newUser.setAddresses(userMemory.getAddresses());
-            newUser.setRaports(userMemory.getRaports());
-            newUser.setId(userMemory.getId());
-            userService.addUser(newUser);
-            showAlert();
-            Stage stage = (Stage) addButton.getScene().getWindow();
-            stage.getOnCloseRequest()
-                    .handle(
-                            new WindowEvent(
-                                    stage,
-                                    WindowEvent.WINDOW_CLOSE_REQUEST
-                            )
-                    );
-            stage.close();
+            try {
+                if(peselInput.getText().length() != 11)
+                    throw new PeselLengthException();
+
+                String pattern = "[0-9]+";
+                if(!phoneNumberInput.getText().matches(pattern) || phoneNumberInput.getText().length() != 9)
+                    throw new PhoneNumberException();
+
+                pattern = "[A-Z][a-z]+";
+                if(!firstNameInput.getText().matches(pattern) || !lastNameInput.getText().matches(pattern))
+                    throw new NameException();
+
+                User newUser = new User(usernameInput.getText(), passwordInput.getText(), firstNameInput.getText(), lastNameInput.getText(), peselInput.getText(), phoneNumberInput.getText());
+                newUser.setRoles(userMemory.getRoles());
+                newUser.setAddresses(userMemory.getAddresses());
+                newUser.setRaports(userMemory.getRaports());
+                newUser.setId(userMemory.getId());
+                userService.addUser(newUser);
+                showAlert("Edit data", "Successful", "Your data has been edited :)");
+                Stage stage = (Stage) addButton.getScene().getWindow();
+                stage.getOnCloseRequest()
+                        .handle(
+                                new WindowEvent(
+                                        stage,
+                                        WindowEvent.WINDOW_CLOSE_REQUEST
+                                )
+                        );
+                stage.close();
+            } catch(PeselLengthException e){
+                showAlert("Edit data", "Error", e.toString());
+            } catch (PhoneNumberException e) {
+                showAlert("Edit data", "Error", e.toString());
+            } catch (NameException e) {
+                showAlert("Edit data", "Error", e.toString());
+            }
         });
     }
 
@@ -91,11 +113,11 @@ public class SelfEditPaneController implements Initializable {
         phoneNumberInput.setText(user.getPhoneNumber());
     }
 
-    private void showAlert() {
+    private void showAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Edit data");
-        alert.setHeaderText("Successful");
-        alert.setContentText("Your data has been edited :)");
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 }
